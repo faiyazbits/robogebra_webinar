@@ -29,7 +29,7 @@ export function SessionTimeline() {
     >
       <div className="flex flex-col items-start lg:sticky lg:top-24">
         <h2 className="text-[28px] font-bold leading-[1.15] tracking-[-1.2px] text-ink sm:text-[36px] lg:text-[44px]">
-          What happens in the session
+          What happens in the session?
         </h2>
       </div>
 

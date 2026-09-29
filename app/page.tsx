@@ -7,6 +7,7 @@ import { WhoWeAre } from "./components/who-we-are";
 import { AfterRegister } from "./components/after-register";
 import { RegisterForm } from "./components/register-form";
 import { Faq } from "./components/faq";
+import { FinalCta } from "./components/final-cta";
 import { MathBackground } from "./components/math-background";
 import { SiteFooter } from "./components/site-footer";
 import { SiteHeader } from "./components/site-header";
@@ -25,6 +26,7 @@ export default function Home() {
         <WhoWeAre />
         <RegisterForm />
         <Faq />
+        <FinalCta />
       </main>
       <SiteFooter />
     </>

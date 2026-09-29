@@ -62,13 +62,13 @@ export function RegisterForm() {
   return (
     <section
       id="register"
-      className="mx-auto grid max-w-[1280px] scroll-mt-16 items-start gap-8 px-4 py-8 sm:gap-12 sm:px-6 sm:py-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:py-16"
+      className="mx-auto max-w-[1280px] scroll-mt-16 px-4 py-8 sm:px-6 sm:py-12 lg:py-16"
     >
-      <div className="flex flex-col items-start lg:sticky lg:top-24">
+      <h2 className="text-center text-[28px] font-bold leading-[1.15] tracking-[-1.2px] text-ink sm:text-[36px] lg:text-[44px]">
+        Save your free seat
+      </h2>
 
-      </div>
-
-      <div className="rounded-[32px] border border-hairline bg-canvas p-6 sm:p-8">
+      <div className="mx-auto mt-8 max-w-[520px] rounded-[32px] border border-hairline bg-canvas p-6 sm:p-8">
         {state.ok ? (
           <div role="status" className="flex flex-col items-start">
             <h3 className="text-[22px] font-semibold leading-[1.25] text-ink">

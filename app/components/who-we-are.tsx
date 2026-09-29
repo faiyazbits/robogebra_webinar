@@ -99,14 +99,14 @@ export function WhoWeAre() {
         ))}
       </div>
 
-      <div className="mt-3 grid gap-3 md:grid-cols-5">
-        <article className="grid overflow-hidden rounded-2xl border border-hairline bg-canvas sm:grid-cols-[2fr_3fr] md:col-span-3">
+      <div className="mt-3 grid gap-3 md:grid-cols-2">
+        <article className="grid overflow-hidden rounded-2xl border border-hairline bg-canvas sm:grid-cols-[2fr_3fr]">
           <div className="relative aspect-[4/3] bg-surface-card sm:aspect-auto sm:min-h-full">
             <Image
               src="/ashraf.png"
               alt="Ashraf Sharfudeen"
               fill
-              sizes="(min-width: 768px) 24vw, (min-width: 640px) 40vw, 100vw"
+              sizes="(min-width: 768px) 20vw, (min-width: 640px) 40vw, 100vw"
               className="object-cover object-top"
             />
             <OverlayPill>Expert panelist</OverlayPill>
@@ -129,13 +129,13 @@ export function WhoWeAre() {
           </div>
         </article>
 
-        <article className="overflow-hidden rounded-2xl border border-hairline bg-canvas md:col-span-2">
-          <div className="relative aspect-[4/3]">
+        <article className="grid overflow-hidden rounded-2xl border border-hairline bg-canvas sm:grid-cols-[2fr_3fr]">
+          <div className="relative aspect-[4/3] bg-surface-card sm:aspect-auto sm:min-h-full">
             <Image
-              src="/faiyaz.jpeg"
+              src="/faiyaz-headshot.jpeg"
               alt="Muhammed Faiyaz"
               fill
-              sizes="(min-width: 768px) 40vw, 100vw"
+              sizes="(min-width: 768px) 20vw, (min-width: 640px) 40vw, 100vw"
               className="object-cover object-top"
             />
             <OverlayPill>Your host</OverlayPill>

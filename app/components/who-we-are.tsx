@@ -64,7 +64,7 @@ export function WhoWeAre() {
             href="https://www.robocompass.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1 self-start text-base font-semibold text-on-dark underline underline-offset-4"
+            className="mt-4 mb-6 inline-flex items-center gap-1 self-start text-base font-semibold text-on-dark underline underline-offset-4"
           >
             Visit robocompass.com
             <ArrowUpRight aria-hidden className="size-4" />
@@ -75,7 +75,7 @@ export function WhoWeAre() {
             width={1080}
             height={492}
             sizes="(min-width: 1280px) 780px, (min-width: 1024px) 60vw, 100vw"
-            className="mt-6 h-auto w-full rounded-2xl lg:mt-auto"
+            className="h-auto w-full rounded-2xl lg:mt-auto"
           />
         </article>
 
@@ -102,10 +102,13 @@ export function WhoWeAre() {
       <div className="mt-3 grid gap-3 md:grid-cols-5">
         <article className="grid overflow-hidden rounded-2xl border border-hairline bg-canvas sm:grid-cols-[2fr_3fr] md:col-span-3">
           <div className="relative aspect-[4/3] bg-surface-card sm:aspect-auto sm:min-h-full">
-            {/* TODO: replace with Ashraf's photo */}
-            <span className="absolute inset-0 flex items-center justify-center text-xs text-mute">
-              Ashraf photo
-            </span>
+            <Image
+              src="/ashraf.png"
+              alt="Ashraf Sharfudeen"
+              fill
+              sizes="(min-width: 768px) 24vw, (min-width: 640px) 40vw, 100vw"
+              className="object-cover object-top"
+            />
             <OverlayPill>Expert panelist</OverlayPill>
           </div>
           <div className="p-6">
@@ -142,8 +145,7 @@ export function WhoWeAre() {
               Muhammed Faiyaz
             </h3>
             <p className="mt-2 text-base leading-[1.4] text-body">
-              Has spent a decade building maths products for teachers and
-              students.
+              Core Team Member, Robogebra.
             </p>
           </div>
         </article>

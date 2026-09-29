@@ -36,7 +36,7 @@ export function Hero() {
         <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold leading-[1.4] text-charcoal">
           <time dateTime="2026-10-10T11:00+05:30">Saturday, 10 October</time>
           <Dot />
-          <span>11:00 AM – 12:00 PM IST</span>
+          <span>04:00 PM – 05:00 PM IST</span>
           {details.map((d) => (
             <span key={d} className="contents">
               <Dot />

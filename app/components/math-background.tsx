@@ -108,15 +108,6 @@ function RightTriangle() {
   );
 }
 
-function Hexagon() {
-  return (
-    <svg viewBox="0 0 100 100" className="h-full w-full">
-      <path d="M50 8 L86 29 V71 L50 92 L14 71 V29 Z" {...lineProps} />
-      <path d="M50 8 V92 M14 29 L86 71 M86 29 L14 71" {...lineProps} strokeDasharray="2 4" />
-    </svg>
-  );
-}
-
 function Cube() {
   return (
     <svg viewBox="0 0 100 100" className="h-full w-full">
@@ -167,7 +158,6 @@ const items: Item[] = [
   // Left side
   { pos: { top: "10%", left: "3%" }, size: 150, render: (s) => <SineAxes still={s} />, mobile: true },
   { pos: { top: "28%", left: "12%" }, size: 56, render: () => <Glyph size={64}>π</Glyph> },
-  { pos: { top: "40%", left: "2%" }, size: 110, render: () => <Hexagon />, spin: 80, mobile: true },
   { pos: { top: "58%", left: "10%" }, size: 60, render: () => <Glyph size={72}>∫</Glyph> },
   { pos: { top: "70%", left: "3%" }, size: 120, render: () => <RightTriangle />, mobile: true },
   { pos: { top: "88%", left: "13%" }, size: 60, render: () => <Glyph size={36}>√x</Glyph> },

@@ -6,6 +6,7 @@ import { WhoShouldJoin } from "./components/who-should-join";
 import { WhoWeAre } from "./components/who-we-are";
 import { AfterRegister } from "./components/after-register";
 import { RegisterForm } from "./components/register-form";
+import { Faq } from "./components/faq";
 import { MathBackground } from "./components/math-background";
 import { SiteFooter } from "./components/site-footer";
 import { SiteHeader } from "./components/site-header";
@@ -23,6 +24,7 @@ export default function Home() {
         <WhoShouldJoin />
         <WhoWeAre />
         <RegisterForm />
+        <Faq />
       </main>
       <SiteFooter />
     </>

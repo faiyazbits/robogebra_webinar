@@ -26,6 +26,8 @@
   --on-dark-mute: rgba(255, 255, 255, 0.7);
 
   --focus-outer: #435ee5;
+  --success-pale: #c7f0da;
+  --success-deep: #103c25;
 
   --background: var(--surface-soft);
   --foreground: var(--body);
@@ -51,6 +53,8 @@
   --color-secondary-pressed: var(--secondary-pressed);
   --color-surface-dark: var(--surface-dark);
   --color-on-dark: var(--on-dark);
+  --color-success-pale: var(--success-pale);
+  --color-success-deep: var(--success-deep);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
@@ -64,6 +68,16 @@ body {
 ::selection {
   background: var(--primary);
   color: var(--on-primary);
+}
+
+.caret {
+  animation: caret-blink 1s steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 :focus-visible {

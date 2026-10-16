@@ -7,7 +7,7 @@ export function FinalCta() {
         </h2>
 
         <p className="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm font-bold leading-[1.4] text-charcoal">
-          <time dateTime="2026-10-10T16:00+05:30">Saturday, 10 October</time>
+          <time dateTime="2026-10-24T16:00+05:30">Saturday, 24 October</time>
           <span aria-hidden className="text-stone">
             ·
           </span>

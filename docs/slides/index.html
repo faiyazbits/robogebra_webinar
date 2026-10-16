@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 10 Things That Tire Out Every Maths Teacher</title>
+
+<!-- Fonts: Vellum's three-family stack -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Courier+Prime:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap">
+
+<style>
+/* ===========================================
+   THEME TOKENS (Vellum)
+   One navy field, yellow type, teal annotation voice.
+   Change these to re-skin the whole deck.
+   =========================================== */
+:root {
+    --navy: #2A3870;
+    --navy-deep: #1F2858;
+    --navy-mid: #34407A;
+    --yellow: #E8D85C;
+    --yellow-2: rgba(232, 216, 92, 0.62);
+    --yellow-3: rgba(232, 216, 92, 0.32);
+    --emphasis: #F5E168;
+    --teal: #3A7878;          /* rules, quote glyph, graphics */
+    --teal-ink: #7DB8B3;      /* same hue, lifted so small teal text survives a screen share */
+    --border: rgba(232, 216, 92, 0.20);
+    --paper: #F3ECC8;         /* flat tile behind partner logos only */
+
+    /* Lesson colours for slide 17 (from the Robogebra mark) */
+    --lesson-blue: #00ACFF;
+    --lesson-orange: #FF8C2B;
+
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'Courier Prime', 'Courier New', monospace;
+
+    /* Spacing at the 1920×1080 stage */
+    --pad-x: 115px;
+    --pad-y: 65px;
+
+    --stage-bg: #151c3b;
+    --slide-bg: var(--navy);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   (viewport-base.css, included in full)
+   =========================================== */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+    .deck-controls {
+        display: none !important;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+/* ===========================================
+   SLIDE BASE
+   Vellum is still: no transitions, no entrance motion.
+   =========================================== */
+.slide {
+    color: var(--yellow);
+    font-family: var(--font-sans);
+    font-size: 26px;
+    line-height: 1.55;
+}
+.notes { display: none; }
+
+/* ===========================================
+   TYPOGRAPHY
+   Italic serif for every headline; <em> flips to upright
+   roman 600 in the brighter yellow.
+   =========================================== */
+.display, .h1, .h2, .h3, .stat, .quote-mark, .count, .score-row .box, .band .range, .eqs, .lesson-eq, .scale .lvl, .journey .name {
+    font-variant-numeric: lining-nums;
+}
+.h1, .h2, .h3, .lead, .body { text-wrap: balance; }
+.display, .h1, .h2, .h3, .stat, .quote-mark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--yellow);
+}
+.display { font-size: 150px; line-height: 0.95; letter-spacing: -0.01em; }
+.h1 { font-size: 112px; line-height: 0.98; letter-spacing: -0.01em; }
+.h2 { font-size: 66px; line-height: 1.08; }
+.h2.sm { font-size: 58px; }
+.h3 { font-size: 44px; line-height: 1.15; font-weight: 500; }
+.display em, .h1 em, .h2 em, .h3 em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--emphasis);
+}
+.stat { font-size: 150px; line-height: 1; letter-spacing: -0.02em; }
+.lead { font-size: 30px; line-height: 1.5; color: var(--yellow-2); }
+.body { font-size: 26px; line-height: 1.55; color: var(--yellow-2); }
+.lead b, .body b, .nlist b {
+    font-weight: 500;
+    color: var(--emphasis);
+}
+.kicker {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal-ink);
+}
+.mono { font-family: var(--font-mono); }
+.rule { width: 28px; height: 1px; background: var(--teal); }
+
+/* The typed tag (the script's "overlay pill"), square-cornered in Vellum */
+.tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 21px;
+    line-height: 1.2;
+    padding: 9px 16px;
+    background: var(--yellow);
+    color: var(--navy-deep);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+/* ===========================================
+   PIN-ANNOTATION + BRAND MARK
+   The pin (bottom-left) is Vellum's signature; the counter
+   line is filled in by JS. The brand mark sits top-right.
+   =========================================== */
+.pin {
+    position: absolute;
+    left: var(--pad-x);
+    bottom: 54px;
+    max-width: 560px;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--teal-ink);
+    letter-spacing: 0.01em;
+    z-index: 5;
+}
+.pin span { display: block; }
+.pin .pin-count { color: var(--yellow-2); }
+.brand-mark {
+    position: absolute;
+    top: 52px;
+    right: 64px;
+    height: 44px;
+    z-index: 5;
+}
+.brand-mark svg { height: 44px; width: auto; display: block; }
+
+/* ===========================================
+   LAYOUTS
+   .center — single centred column
+   .split  — text panel + visual panel (Vellum's compare pair)
+   =========================================== */
+.center {
+    position: absolute;
+    inset: 0;
+    padding: 110px 200px 170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.split {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1080px 840px;
+}
+.split.rev { grid-template-columns: 840px 1080px; }
+.split .text {
+    padding: 100px 100px 175px var(--pad-x);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.split.rev .text { padding: 100px var(--pad-x) 120px 100px; }
+.split .visual {
+    position: relative;
+    background: var(--navy-deep);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 110px 80px;
+}
+.split.rev .visual {
+    border-left: none;
+    border-right: 1px solid var(--border);
+    padding-bottom: 170px;
+}
+
+/* Vertical rhythm helpers */
+.gap-xs { margin-top: 12px; }
+.gap-sm { margin-top: 22px; }
+.gap-md { margin-top: 36px; }
+.gap-lg { margin-top: 54px; }
+
+/* ===========================================
+   NUMBERED LIST (teal mono counters, never bullets)
+   =========================================== */
+.nlist {
+    list-style: none;
+    counter-reset: n;
+    text-align: left;
+    width: 100%;
+}
+.nlist li {
+    counter-increment: n;
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    font-size: 25px;
+    line-height: 1.5;
+    color: var(--yellow);
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+}
+.nlist li:last-child { border-bottom: 1px solid var(--border); }
+.nlist li::before {
+    content: counter(n, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--teal-ink);
+    padding-top: 4px;
+}
+.nlist.checks li::before { content: "✓"; font-size: 24px; padding-top: 0; }
+
+/* ===========================================
+   CHALLENGE / EASIER-WAY COMPONENTS
+   =========================================== */
+.count {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 104px;
+    line-height: 1;
+    color: var(--yellow);
+}
+.count small { font-size: 52px; color: var(--yellow-3); }
+.score-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--yellow-2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.score-row .box {
+    width: 74px; height: 74px;
+    border: 1px solid var(--yellow-2);
+    display: grid; place-items: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 44px;
+    color: var(--yellow);
+    text-transform: none;
+    letter-spacing: 0;
+}
+.for-line {
+    font-family: var(--font-mono);
+    font-size: 21px;
+    color: var(--yellow-2);
+}
+.note-line {
+    font-family: var(--font-mono);
+    font-size: 21px;
+    color: var(--teal-ink);
+    line-height: 1.5;
+}
+
+/* Visual-panel pieces */
+.frame { border: 1px solid var(--border); }
+.vcap {
+    font-family: var(--font-mono);
+    font-size: 19px;
+    color: var(--yellow-2);
+    letter-spacing: 0.04em;
+}
+.vtag { margin-top: 30px; }
+.panel-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+}
+.photo-tag {
+    position: absolute;
+    left: 56px;
+    bottom: 56px;
+    z-index: 2;
+}
+
+/* Plain-text maths printout (slide 4) */
+.printout {
+    width: 620px;
+    background: rgba(232, 216, 92, 0.05);
+    border: 1px solid var(--border);
+    padding: 36px 40px;
+    font-family: var(--font-mono);
+    font-size: 25px;
+    line-height: 1.75;
+    color: var(--yellow-3);
+    text-align: left;
+    white-space: pre;
+    transform: rotate(-1.5deg);
+}
+.printout .hi { color: var(--yellow-2); }
+
+/* Chat snippet (slides 5, 18) */
+.chat { width: 640px; text-align: left; display: flex; flex-direction: column; gap: 14px; }
+.msg {
+    font-size: 24px;
+    line-height: 1.45;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+}
+.msg.me { align-self: flex-end; max-width: 480px; background: var(--navy-mid); color: var(--yellow); }
+.msg.ai { max-width: 600px; color: var(--yellow-2); font-family: var(--font-mono); font-size: 22px; }
+.msg.ai .gap { color: var(--emphasis); border: 1px solid var(--emphasis); padding: 0 8px; }
+.msg.faded { opacity: 0.5; }
+.who { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.08em; color: var(--teal-ink); text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+/* Period bar (slides 6, 19) */
+.period { width: 660px; text-align: left; }
+.period .bar {
+    display: flex;
+    height: 64px;
+    border: 1px solid var(--yellow-2);
+}
+.period .seg {
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 17px; color: var(--navy-deep);
+    border-right: 1px solid var(--navy-deep);
+    white-space: nowrap; overflow: hidden;
+}
+.period .seg.lost { background: var(--yellow-3); color: var(--yellow); }
+.period .seg.teach { background: transparent; color: var(--yellow-2); }
+.period .seg.on { background: var(--yellow); color: var(--navy-deep); }
+.period .ticks {
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono); font-size: 17px; color: var(--yellow-3);
+    margin-top: 8px;
+}
+.period .label { font-family: var(--font-mono); font-size: 18px; color: var(--teal-ink); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.period.faded { opacity: 0.5; }
+.period .legend { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 20px; color: var(--yellow-2); }
+.period .legend i { display: inline-block; width: 18px; height: 18px; margin-right: 12px; vertical-align: -2px; border: 1px solid var(--yellow-2); }
+.period .legend i.lost { background: var(--yellow-3); }
+.period .legend i.on { background: var(--yellow); border-color: var(--yellow); }
+
+/* Spectrum (slides 8, 21) */
+.spectrum { width: 700px; position: relative; padding-top: 150px; }
+.spectrum .track { height: 2px; background: var(--yellow-2); position: relative; }
+.spectrum .track::before, .spectrum .track::after {
+    content: ""; position: absolute; top: -9px; width: 2px; height: 20px; background: var(--yellow-2);
+}
+.spectrum .track::before { left: 0; }
+.spectrum .track::after { right: 0; }
+.spectrum .zone {
+    position: absolute; top: -26px; height: 52px; left: 32%; width: 36%;
+    background: var(--yellow-3);
+}
+.spectrum .marker {
+    position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+}
+.spectrum .marker .stem { width: 2px; height: 72px; background: var(--emphasis); }
+.spectrum .marker .dot { width: 20px; height: 20px; border-radius: 50%; background: var(--emphasis); margin-bottom: -10px; }
+.spectrum .marker .tag { margin-bottom: 14px; }
+.spectrum .ends { display: flex; justify-content: space-between; margin-top: 30px; text-align: left; }
+.spectrum .end { width: 330px; }
+.spectrum .end.right { text-align: right; }
+.spectrum .end .h3 { font-size: 34px; }
+.spectrum .heads { white-space: nowrap; font-family: var(--font-mono); font-size: 19px; color: var(--yellow-3); line-height: 1.5; margin-top: 10px; }
+.spectrum .zone-label { text-align: center; margin-top: 26px; font-family: var(--font-mono); font-size: 19px; color: var(--emphasis); }
+
+/* Section boards 9A–9D (slides 9, 22) */
+.boards { display: grid; grid-template-columns: repeat(2, 320px); gap: 22px; }
+.board { border: 1px solid var(--border); padding: 12px 14px 8px; background: rgba(232,216,92,0.04); }
+.board .vcap { display: flex; justify-content: space-between; font-size: 19px; }
+.board svg { width: 100%; height: 180px; display: block; }
+
+/* Question hunt list (slide 10) */
+.hunt { width: 640px; text-align: left; font-family: var(--font-mono); font-size: 26px; line-height: 1.9; color: var(--yellow-2); }
+.hunt .strike { text-decoration: line-through; text-decoration-color: var(--emphasis); color: var(--yellow-3); }
+.hunt .bad { color: var(--emphasis); }
+.hunt .head { font-family: var(--font-serif); font-style: italic; font-size: 40px; color: var(--yellow); margin-bottom: 8px; }
+
+/* Blueprint table (slide 12) */
+.blueprint { border-collapse: collapse; font-family: var(--font-mono); font-size: 23px; color: var(--yellow-2); }
+.blueprint th, .blueprint td { border: 1px solid var(--border); padding: 12px 18px; text-align: center; }
+.blueprint th { color: var(--teal-ink); font-weight: 400; font-size: 17px; letter-spacing: 0.06em; }
+.blueprint td:first-child { text-align: left; color: var(--yellow); }
+.blueprint .q { color: var(--emphasis); font-weight: 700; }
+.sticky {
+    display: inline-block; background: var(--paper); color: var(--navy-deep);
+    font-family: var(--font-mono); font-size: 20px; padding: 14px 18px; font-weight: 700;
+}
+
+/* Register / students (slides 13, 26) */
+.register { display: grid; grid-template-columns: repeat(4, 160px); gap: 14px 14px; font-family: var(--font-mono); font-size: 23px; color: var(--yellow-3); text-align: left; }
+.register span { padding: 6px 10px; }
+.register .flag { color: var(--yellow); border: 1px solid var(--emphasis); position: relative; }
+.register .flag::after { content: "?"; position: absolute; right: -4px; top: -16px; color: var(--emphasis); font-weight: 700; font-size: 24px; }
+.journey { width: 640px; text-align: left; }
+.journey .row { display: grid; grid-template-columns: 170px 1fr; align-items: baseline; padding: 16px 0; border-top: 1px solid var(--border); }
+.journey .row:last-child { border-bottom: 1px solid var(--border); }
+.journey .name { font-family: var(--font-serif); font-style: italic; font-size: 38px; }
+.journey .where { font-family: var(--font-mono); font-size: 20px; color: var(--yellow-2); }
+.journey .where b { color: var(--emphasis); font-weight: 700; }
+
+/* Learning-cost scale (slide 20) */
+.scale { width: 640px; text-align: left; }
+.scale .row { display: grid; grid-template-columns: 170px 1fr; gap: 20px; align-items: baseline; padding: 22px 0; border-top: 1px solid var(--border); }
+.scale .row:last-child { border-bottom: 1px solid var(--border); }
+.scale .lvl { font-family: var(--font-serif); font-style: italic; font-size: 48px; line-height: 1; }
+.scale .row.dim .lvl { color: var(--yellow-3); }
+.scale .row.dim .desc { color: var(--yellow-3); }
+.scale .desc { font-size: 23px; color: var(--yellow-2); line-height: 1.45; }
+.scale .row.low { background: rgba(232,216,92,0.07); padding-left: 16px; padding-right: 16px; }
+.scale .row.low .desc { color: var(--yellow); }
+
+/* Equation edit (slide 23) */
+.eqs { font-family: var(--font-serif); font-style: italic; font-size: 60px; line-height: 1.35; text-align: center; color: var(--yellow-2); }
+.eqs .old { text-decoration: line-through; text-decoration-color: var(--emphasis); color: var(--yellow-3); font-size: 40px; }
+.eqs .new { font-style: normal; font-weight: 600; color: var(--emphasis); }
+.eqs .step { font-size: 48px; }
+
+/* Prompt card (slide 18) */
+.prompt {
+    width: 660px; text-align: left; border: 1px solid var(--yellow-2);
+    padding: 26px 30px; font-family: var(--font-mono); font-size: 21px; line-height: 1.55; color: var(--yellow);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 10px; width: 660px; margin-top: 18px; }
+.chip { font-family: var(--font-mono); font-size: 18px; color: var(--yellow); border: 1px solid var(--border); padding: 6px 12px; }
+.vague { width: 660px; text-align: left; font-family: var(--font-mono); font-size: 20px; color: var(--yellow-3); border: 1px dashed var(--border); padding: 16px 22px; margin-bottom: 24px; }
+
+/* Search (slide 25) */
+.search { width: 660px; text-align: left; }
+.search .box { border: 1px solid var(--yellow-2); padding: 16px 22px; font-family: var(--font-mono); font-size: 23px; color: var(--yellow); display: flex; gap: 14px; align-items: center; }
+.search .res { padding: 16px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 90px 1fr 110px; gap: 12px; align-items: baseline; }
+.search .yr { font-family: var(--font-mono); font-size: 19px; color: var(--teal-ink); }
+.search .qt { font-size: 22px; color: var(--yellow-2); line-height: 1.4; }
+.search .mk { font-family: var(--font-mono); font-size: 17px; color: var(--yellow-3); text-align: right; }
+.search .res.open .qt { color: var(--yellow); }
+
+/* Stats row (slides 3, 15) */
+.stats { display: flex; justify-content: center; }
+.stats .pin-stat { padding: 10px 70px; border-right: 1px solid var(--border); text-align: center; }
+.stats .pin-stat:last-child { border-right: none; }
+.stat-label { font-family: var(--font-mono); font-size: 22px; color: var(--yellow-2); margin-top: 16px; }
+
+/* Score bands (slide 14) */
+.bands { width: 1400px; }
+.band { display: grid; grid-template-columns: 330px 1fr; align-items: center; gap: 50px; padding: 30px 50px; text-align: left; border-top: 1px solid var(--border); }
+.band:nth-child(1) { background: var(--navy); }
+.band:nth-child(2) { background: var(--navy-mid); }
+.band:nth-child(3) { background: var(--navy-deep); border-bottom: 1px solid var(--border); }
+.band .range { font-family: var(--font-serif); font-style: italic; font-size: 76px; line-height: 1; }
+.band .msg-text { font-size: 27px; line-height: 1.5; color: var(--yellow); }
+
+/* Partners (slide 15) */
+.partners { display: grid; grid-template-columns: repeat(3, 1fr); width: 1520px; }
+.partner { padding: 0 44px; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.partner:last-child { border-right: none; }
+.partner .logo-slot { height: 130px; display: flex; align-items: center; justify-content: center; margin-bottom: 26px; }
+.partner .logo-slot img { max-height: 110px; }
+.partner .logo-slot.paper { background: var(--paper); padding: 8px 24px; }
+.partner .h3 { font-size: 38px; }
+.partner .body { font-size: 22px; margin-top: 12px; }
+
+/* Ashraf portrait (slides 16, 28) */
+.portrait { height: 620px; width: auto; max-height: none; border: 1px solid var(--border); display: block; }
+.portrait.sm { height: 470px; }
+
+/* Converging lines (slide 27) */
+.vertex-svg { width: 680px; height: 640px; }
+
+/* Cone steps (slide 24) */
+.cone-grid { display: grid; grid-template-columns: repeat(2, 320px); gap: 20px; }
+.cone-step { border: 1px solid var(--border); padding: 10px; }
+.cone-step svg { width: 100%; height: 250px; display: block; }
+
+/* Graph (slide 17) */
+.lesson-eq { font-family: var(--font-serif); font-style: italic; font-size: 76px; line-height: 1; margin-bottom: 18px; }
+.lesson-eq .b { color: var(--lesson-blue); font-style: normal; font-weight: 600; }
+.lesson-eq .o { color: var(--lesson-orange); font-style: normal; font-weight: 600; }
+.c-blue { color: var(--lesson-blue); font-weight: 600; }
+.c-orange { color: var(--lesson-orange); font-weight: 600; }
+.before-thumb { font-family: var(--font-mono); font-size: 17px; color: var(--yellow-3); border: 1px dashed var(--border); padding: 8px 14px; margin-bottom: 22px; }
+
+/* Cover logo */
+.logo-full { height: 58px; width: auto; }
+.logo-full.lg { height: 80px; }
+
+/* ===========================================
+   PRESENTER CHROME (outside the stage, never screen-shared
+   unless you share the whole window)
+   =========================================== */
+.notes-panel {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    max-height: 42vh;
+    overflow: auto;
+    background: #10152e;
+    color: #efe6b0;
+    border-top: 1px solid rgba(232,216,92,0.3);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.55;
+    padding: 18px 28px 26px;
+    z-index: 2000;
+    display: none;
+}
+.notes-panel.open { display: block; }
+.notes-panel .meta { font-family: var(--font-mono); color: #7DB8B3; font-size: 14px; margin-bottom: 8px; letter-spacing: 0.04em; }
+.notes-panel p { margin-bottom: 8px; max-width: 1100px; }
+
+.edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+.edit-toggle {
+    position: fixed; top: 16px; left: 16px; z-index: 10001;
+    font-family: var(--font-mono); font-size: 14px; padding: 8px 12px;
+    background: var(--yellow); color: var(--navy-deep); border: none; cursor: pointer;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+body.editing .slide [contenteditable="true"] { outline: 1px dashed rgba(232,216,92,0.5); outline-offset: 4px; }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<!-- ============ 01 · WELCOME ============ -->
+<section class="slide" data-title="Welcome" data-duration="~1.5 min" data-interaction="Ask everyone to type their name and city in the chat." data-nomark>
+    <div class="split">
+        <div class="text">
+            <img class="logo-full" src="assets/robogebra-logo-vellum.svg" alt="Robogebra">
+            <div class="kicker gap-lg">Saturday · 24 October · 04:00 PM IST · Live online</div>
+            <h1 class="h1 gap-sm">Still teaching maths <em>the hard way?</em></h1>
+            <p class="lead gap-md">The 10 Things That Tire Out Every Maths Teacher &amp; How to Fix Them</p>
+            <p class="note-line gap-md">Hosted by Muhammed Faiyaz, Robogebra<br>Expert panelist: Ashraf Sharfudeen</p>
+            <p class="body gap-sm">Keep a pen and paper ready. You'll need it in five minutes.</p>
+        </div>
+        <div class="visual">
+            <img class="panel-photo" src="assets/teacher_board_chalk.jpg" alt="A maths teacher smiling beside a chalkboard">
+            <span class="tag photo-tag">Pen and paper ready?</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Welcome"><span>Chat: your name and city</span></div>
+    <aside class="notes"><p>Good evening, and thank you for giving us your Saturday evening. I'm Faiyaz from Robogebra, and I'll be your host for the next hour. You've probably already taught five or six periods this week and checked a stack of notebooks, and here you are, still thinking about your classroom. That says a lot. Today we'll walk through 10 moments that drain maths teachers every single week, and for each one we'll show you an easier way you can use in your very next period. Before we start, grab a pen and a sheet of paper. You'll keep your own score, and nobody else will see it.</p></aside>
+</section>
+
+<!-- ============ 02 · YOUR NEXT 60 MINUTES ============ -->
+<section class="slide" data-title="Your next 60 minutes" data-duration="~1 min" data-interaction="None.">
+    <div class="center">
+        <div class="kicker">The plan</div>
+        <h2 class="h1 gap-sm">Your next <em>60 minutes</em></h2>
+        <ol class="nlist gap-lg" style="width:1300px">
+            <li><span><b>Find your score</b> <span class="mono" style="color:var(--teal-ink);font-size:20px">· 20 min</span><br><span style="color:var(--yellow-2)">10 moments that drain maths teachers. You rate each one.</span></span></li>
+            <li><span><b>An easier way for every moment</b> <span class="mono" style="color:var(--teal-ink);font-size:20px">· 15 min</span><br><span style="color:var(--yellow-2)">Simple changes you can use in your very next period.</span></span></li>
+            <li><span><b>The Vertex</b> <span class="mono" style="color:var(--teal-ink);font-size:20px">· 5 min</span><br><span style="color:var(--yellow-2)">Meet maths teachers from every board and state.</span></span></li>
+            <li><span><b>Ask Ashraf, live</b> <span class="mono" style="color:var(--teal-ink);font-size:20px">· 15 min</span><br><span style="color:var(--yellow-2)">Bring the question from your own classroom.</span></span></li>
+        </ol>
+    </div>
+    <div class="pin" data-section="The plan"><span>Stay till the end: 2 weeks free</span></div>
+    <aside class="notes"><p>Here's how the hour runs. First, I'll read out 10 moments that wear maths teachers down, week after week. You'll rate each one on paper, and at the end you'll add up your own score. Then we'll take two minutes to tell you who we are and why we built this. After that comes the part you came for: an easier way through each of those 10 moments, and none of them asks you to learn anything new or change how your school works. Then I'll introduce The Vertex, our community of maths teachers from across India. We'll close with fifteen minutes of live Q&amp;A with Ashraf, so start noting down your questions now. Stay till the end, because everyone who attends live gets 2 weeks of free access to Robogebra.</p></aside>
+</section>
+
+<!-- ============ 03 · HOW TO SCORE ============ -->
+<section class="slide" data-title="How to score" data-duration="~1 min" data-interaction="Ask teachers to type &quot;ready&quot; in the chat once their paper is set up.">
+    <div class="center">
+        <div class="kicker">How to score</div>
+        <h2 class="h2 gap-sm">Write <em>1 to 10</em> down the side of your paper.</h2>
+        <p class="lead gap-sm">For each moment, give it:</p>
+        <div class="stats gap-md">
+            <div class="pin-stat"><div class="stat">10</div><div class="stat-label">This is my week. I face it.</div></div>
+            <div class="pin-stat"><div class="stat">5</div><div class="stat-label">Sometimes, or not sure.</div></div>
+            <div class="pin-stat"><div class="stat">0</div><div class="stat-label">Not me.</div></div>
+        </div>
+        <p class="body gap-lg">Add them up at the end. Your score stays with you.</p>
+    </div>
+    <div class="pin" data-section="How to score"><span>Chat: type “ready”</span></div>
+    <aside class="notes"><p>Here's all you have to do. Write the numbers 1 to 10 down the side of your paper. I'll read out one moment at a time. If it hits home and you live it every week, write 10. If it happens sometimes, or you're not sure, write 5. If it's simply not your reality, write 0. Be honest, because nobody will ask for your score. Once we've finished all 10, you'll add them up, and that total will tell you how much the easier ways later in this session can help you. There are no right answers here. Every classroom is different, and a 0 is as useful to us as a 10.</p></aside>
+</section>
+
+<!-- ============ 04 · CHALLENGE 1 ============ -->
+<section class="slide" data-title="Challenge 1/10: Maths online looks lifeless" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 1 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">1<small>/10</small></div>
+            <h2 class="h2 gap-sm">You search for good maths material online, and it looks <em>lifeless.</em></h2>
+            <p class="body gap-md">Flat black-and-white pages. x^2 and sqrt(3x+1) typed as plain text. Steps that drift left and right, with equals signs that never line up.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+<div class="printout"><span class="hi">Q. Solve: sqrt(3x+1) = x-1</span>
+ 3x+1 = (x-1)^2
+      3x + 1=x^2-2x+1
+x^2-5x = 0
+          x(x-5)=0
+   x=0 or x = 5
+ check: sqrt(16)=4 /true</div>
+            <span class="tag vtag">Would you show this to your class?</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Picture this. It's Sunday night, and you're looking for a good example or worksheet for tomorrow's class. You open page after page, and they all look the same: grey, flat, black and white. Powers are typed as x-caret-2. Square roots show up as "sqrt" with brackets. The working jumps around the page, and you have to squint to follow which line came from which. You know your students will switch off the moment this goes on the board or into their notebooks. So you close the tab and start writing it all out yourself, again. How often does this happen to you? Take a second, and write down your score: 10 if this is your week, 5 if it happens sometimes, 0 if it's not you.</p></aside>
+</section>
+
+<!-- ============ 05 · CHALLENGE 2 ============ -->
+<section class="slide" data-title="Challenge 2/10: AI answers that miss your syllabus" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 2 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">2<small>/10</small></div>
+            <h2 class="h2 gap-sm">AI was supposed to save you time. Now you spend that time <em>fixing its answers.</em></h2>
+            <p class="body gap-md">Methods your syllabus never teaches. Steps skipped exactly where your students get stuck. Prompt after prompt, and it's 11 PM.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div class="chat">
+                <div class="msg me"><span class="who">You</span>Class 10: find the maximum area of a rectangle with perimeter 20 cm.</div>
+                <div class="msg ai"><span class="who">AI</span>Let A = x(10 − x). dA/dx = 10 − 2x = 0<br><span class="gap">⋯ ⋯ ⋯</span> ∴ A = 25 cm²</div>
+                <div class="msg me faded">Explain it for Class 9</div>
+                <div class="msg me faded">Use the NCERT method</div>
+                <div class="msg me">Show every step</div>
+            </div>
+            <span class="tag vtag">Prompt #6</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Most of us have tried it by now. You ask an AI tool to prepare tomorrow's lesson or solve a textbook question, and the answer looks confident. Then you read it closely. It uses a method your students haven't learnt yet, or one your board doesn't follow. It jumps from the second line straight to the answer, and those are exactly the steps your students need to see. So you ask again: explain it for Class 9, use the textbook method, show every step. Twenty minutes later you're still rewording prompts and checking every line. The time you hoped to save has gone into fixing the answers. Does this sound like your week? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 06 · CHALLENGE 3 ============ -->
+<section class="slide" data-title="Challenge 3/10: Brilliant tools, 40-minute periods" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 3 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">3<small>/10</small></div>
+            <h2 class="h2 gap-sm">The tools are brilliant. Your period is <em>40 minutes.</em></h2>
+            <p class="body gap-md">Simulations, graphing apps and 3D models could make every concept click. But setup eats ten minutes, the bell rings mid-demo, and the syllabus is already two chapters behind.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div class="period">
+                <div class="label">Period 4 · 40 minutes</div>
+                <div class="bar">
+                    <div class="seg lost" style="width:12.5%"></div>
+                    <div class="seg lost" style="width:25%"></div>
+                    <div class="seg teach" style="width:62.5%"></div>
+                </div>
+                <div class="legend">
+                    <span><i class="lost"></i>0–5 min · settle, attendance</span>
+                    <span><i class="lost"></i>5–15 min · find the tool, set it up</span>
+                    <span><i></i>15–40 min · demo… the bell rings mid-demo</span>
+                </div>
+            </div>
+            <p class="vcap gap-lg">Syllabus: 2 chapters behind · Unit test: next week</p>
+            <span class="tag vtag">Still loading…</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Here's the frustrating part. There are wonderful tools out there. You've seen a simulation that makes a concept click in a way no chalkboard can, and you know your students would finally get it. Then you look at your timetable. You have forty minutes, and five of those go to settling the class and taking attendance. In class, you're opening the laptop, finding the right screen and dragging the right slider while the clock keeps running. And the syllabus doesn't wait. You're already two chapters behind, the unit test is next week, and so the tool gets saved for "someday". How often do you feel this? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 07 · CHALLENGE 4 ============ -->
+<section class="slide" data-title="Challenge 4/10: Learning the tool before the lesson" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 4 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">4<small>/10</small></div>
+            <h2 class="h2 gap-sm">You sit down to prepare one lesson. Two hours later, you're still <em>learning the tool.</em></h2>
+            <p class="body gap-md">Toolbars full of icons. Menus inside menus. A 12-part tutorial series. Your lesson plan is still a blank page.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div style="width:640px;text-align:left">
+                <div class="vcap" style="color:var(--yellow)">▶ Getting started: Part 1 of 12 · 18:42</div>
+                <div class="vcap gap-xs" style="color:var(--yellow-3)">▶ Part 2: The toolbar explained · 22:10</div>
+                <div class="vcap gap-xs" style="color:var(--yellow-3)">▶ Part 3: Settings and preferences · 15:35</div>
+                <div class="frame gap-md" style="padding:28px 34px 40px;background:rgba(232,216,92,0.04)">
+                    <div class="h3" style="font-size:40px">Lesson plan: Circles</div>
+                    <div style="height:1px;background:var(--border);margin-top:44px"></div>
+                    <div style="height:1px;background:var(--border);margin-top:44px"></div>
+                    <div style="height:1px;background:var(--border);margin-top:44px"></div>
+                    <div style="height:1px;background:var(--border);margin-top:44px"></div>
+                </div>
+            </div>
+            <span class="tag vtag">Still blank</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>You finally decide to try that new tool everyone's talking about. You open it on Sunday afternoon, planning to prepare tomorrow's lesson on circles. First you have to find the right tool in the toolbar. Then there's a menu for this and a setting for that, and a tutorial video that turns out to be part 1 of 12. Two hours go by. You now know a lot about the tool, and your lesson on circles hasn't moved an inch. That time should have gone into your students: into the questions you'll ask and the mistakes you know they'll make. Instead it went into learning software. Is this your week? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 08 · CHALLENGE 5 ============ -->
+<section class="slide" data-title="Challenge 5/10: Stuck between chalk and AI" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 5 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">5<small>/10</small></div>
+            <h2 class="h2 gap-sm">Where do you stand on teaching with technology? Most days, <em>you're not sure.</em></h2>
+            <p class="body gap-md">One side: AI headlines promising to change everything, and warning that teachers will be replaced. Other side: chalk and board, which you trust, struggling to hold a class that grew up on reels.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div class="spectrum">
+                <div class="track">
+                    <div class="marker"><span class="tag">Where are you?</span><span class="stem"></span><span class="dot"></span></div>
+                </div>
+                <div class="ends">
+                    <div class="end">
+                        <svg width="70" height="56" viewBox="0 0 70 56" style="display:block;margin-bottom:10px"><path d="M6 50 L35 6 L64 50 Z" fill="none" stroke="#E8D85C" stroke-width="2" stroke-linejoin="round" stroke-dasharray="5 3"/></svg>
+                        <div class="h3">Chalk and board</div>
+                    </div>
+                    <div class="end right">
+                        <div class="heads">“AI will replace teachers”<br>“Schools must go fully digital”</div>
+                        <div class="h3 gap-xs">AI does everything</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Every week there's a new headline. AI will change education. AI will replace teachers. Schools must go fully digital. Some of it sounds exciting, and a lot of it sounds scary. Meanwhile your school still runs on a timetable, a syllabus and a chalkboard, and honestly, the chalkboard has served you well for years. But you also see it in your students' eyes. A class that grew up on reels finds it hard to stay with a long derivation on the board, and you can feel their attention slip away by the third line. So you're caught in the middle. You don't want to throw away what works, and you don't want to be left behind either. Nobody has told you what a sensible middle looks like. Does this feel like you? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 09 · CHALLENGE 6 ============ -->
+<section class="slide" data-title="Challenge 6/10: A smart board, used like a blackboard" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 6 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">6<small>/10</small></div>
+            <h2 class="h2 sm gap-sm">Your classroom has a smart board. You still write the same sum on it <em>five times a day.</em></h2>
+            <p class="body gap-md">Period 1 in 9A: you draw the graph. Period 3 in 9B: the same graph, from scratch. Period 6 in 9D: all over again, and your hand aches by the end of the day.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div class="boards">
+                <div class="board"><div class="vcap"><span>9A · P1</span><span>y = 2x + 3</span></div>
+                    <svg viewBox="0 0 240 150"><path d="M20 130 H225 M40 140 V10" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><path d="M50 128 C 90 100, 120 70, 150 50 S 190 18, 205 12" stroke="#E8D85C" stroke-width="2.5" fill="none"/></svg></div>
+                <div class="board"><div class="vcap"><span>9B · P3</span><span>y = 2x + 3</span></div>
+                    <svg viewBox="0 0 240 150"><path d="M22 128 H222 M42 142 V12" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><path d="M52 132 C 80 110, 115 78, 140 62 C 165 44, 180 30, 210 16" stroke="#E8D85C" stroke-width="2.5" fill="none"/></svg></div>
+                <div class="board"><div class="vcap"><span>9C · P5</span><span>y = 2x + 3</span></div>
+                    <svg viewBox="0 0 240 150"><path d="M18 131 H226 M38 140 V8" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><path d="M48 126 Q 95 96, 128 70 T 200 14" stroke="#E8D85C" stroke-width="2.5" fill="none"/></svg></div>
+                <div class="board"><div class="vcap"><span>9D · P6</span><span>y = 2x + 3</span></div>
+                    <svg viewBox="0 0 240 150"><path d="M20 129 H224 M41 141 V11" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><path d="M55 130 C 85 112, 100 88, 135 66 C 160 50, 170 40, 190 30 L 212 18" stroke="#E8D85C" stroke-width="2.5" fill="none"/></svg></div>
+            </div>
+            <span class="tag vtag">4th time today</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Many of us now have a smart board in the classroom, and it's a big investment. So what do we do with it? Mostly, we use it like a very expensive blackboard. Period 1, Class 9A: you draw the coordinate axes, plot the points and write out the working. Period 3, Class 9B: same topic, so you draw the same graph again from scratch. Period 6, 9D: again. The board can do so much more, but nobody showed us how to make it save us work, so every section gets the same sum written out by hand. And if your school doesn't have a smart board, think of your blackboard: you're redrawing the same diagram in every section there too. So score yourself on the repetition. Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 10 · CHALLENGE 7 ============ -->
+<section class="slide" data-title="Challenge 7/10: Hunting for one more practice question" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 7 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">7<small>/10</small></div>
+            <h2 class="h2 sm gap-sm">One good question. Your students need five more like it. <em>Out come the guidebooks.</em></h2>
+            <p class="body gap-md">Three reference books, two guides and a pile of old question papers. An hour later you have four variations, and one of them has an answer that won't come out clean.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div class="hunt">
+                <div class="head">Q1 variations</div>
+                <div>1. x² + 5x + 6 = 0 ✓</div>
+                <div class="strike">2. 2x² + 3x − 9 = 0 (wrong chapter)</div>
+                <div class="strike">3. x² − 4x + 1 = 0 (too easy)</div>
+                <div>4. 3x² + 7x − 4 = 0 ✓</div>
+                <div class="bad">5. x = 17 / 13√2 ??</div>
+                <div class="vcap gap-sm" style="color:var(--yellow-2);white-space:nowrap">3 reference books · 2 guides · old papers · 1 hour</div>
+            </div>
+            <span class="tag vtag">Just one more…</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>You know how practice works. A student solves one question and thinks they've got it. Give them the same idea with different numbers, or a small twist, and that's when you find out. So you go looking for variations. You open one reference book, then another, then the guide from the staffroom, then last year's question papers. Some questions are too easy and some are from a different chapter. One looks perfect until you work it out and the answer comes to 17 by 13 root 2. An hour later you have four decent questions for one concept, and there are nine more concepts in the chapter. Does this sound like your evening? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 11 · CHALLENGE 8 ============ -->
+<section class="slide" data-title="Challenge 8/10: The student who can't picture the cone" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 8 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">8<small>/10</small></div>
+            <h2 class="h2 sm gap-sm">Thirty-nine heads nod. One doesn't. That student still <em>can't picture the cone.</em></h2>
+            <p class="body gap-md">A frustum in Class 10. A line cutting a plane in Class 12. On a flat board, a 3D idea shrinks to a few slanted lines, and some students never see what you see in your head.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <img class="panel-photo" src="assets/confused_kid.jpg" alt="A schoolboy frowning at a cone in his notebook">
+            <span class="tag photo-tag">Still can't picture the cone</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>You draw the cone on the board. You add the slant height, the radius and a dotted line for the hidden edge, and you explain it clearly. Most of the class nods. Then there's that one student, and honestly, it's often more than one, who looks at the board and sees three lines and an oval. What's in your head is a solid cone you can turn around and cut open. What's on the board is flat. And it only gets harder as they go up: the frustum in Class 10, conic sections in Class 11, lines and planes in three dimensions in Class 12, even the area under a curve. Even a smart board shows these as flat pictures. You try a different angle, you hold up a pencil and a book, and then the bell rings. How often have you seen this in your class? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 12 · CHALLENGE 9 ============ -->
+<section class="slide" data-title="Challenge 9/10: Setting the question paper" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 9 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">9<small>/10</small></div>
+            <h2 class="h2 gap-sm">Exams are next week. The question paper is <em>due on Friday.</em></h2>
+            <p class="body gap-md">The right 3-marker is in one guide, the case study in an old question paper, the diagram in a book a colleague borrowed. Then it all has to match the blueprint, fit the marks, and get typed up.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <table class="blueprint">
+                <tr><th>CHAPTER</th><th>1M</th><th>2M</th><th>3M</th><th>5M</th><th>CASE</th></tr>
+                <tr><td>Real Numbers</td><td>✓</td><td>✓</td><td>✓</td><td>–</td><td>–</td></tr>
+                <tr><td>Triangles</td><td>✓</td><td class="q">?</td><td>✓</td><td>✓</td><td>–</td></tr>
+                <tr><td>Circles</td><td>✓</td><td>✓</td><td class="q">?</td><td>–</td><td class="q">?</td></tr>
+                <tr><td>Statistics</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>–</td></tr>
+                <tr><td>Probability</td><td class="q">?</td><td>✓</td><td>–</td><td>–</td><td>✓</td></tr>
+            </table>
+            <div style="display:flex;gap:18px;margin-top:30px">
+                <span class="sticky" style="transform:rotate(-2deg)">Q14?</span>
+                <span class="sticky" style="transform:rotate(1.5deg)">need 1 more case study</span>
+            </div>
+            <span class="tag vtag">Due Friday</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Then comes exam time, and someone has to set the paper. You start with the blueprint: so many marks from each chapter, so many 1-markers, 2-markers, long answers and case-based questions. Then the hunt begins. The perfect 3-mark question is in one guide. The case study you want is in a paper from three years ago. The diagram you need is in a book a colleague borrowed and never returned. Some of the questions you find are exactly what you set last year. You keep going through the reference books, the old papers and the websites until every chapter is covered and the marks add up. Then you still have to type it all, with fractions, roots and diagrams, into a document that won't cooperate. How much does this sound like your exam week? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 13 · CHALLENGE 10 ============ -->
+<section class="slide" data-title="Challenge 10/10: Who needs help, and with what?" data-duration="~1.5 min" data-interaction="Teachers write their score for challenge 10 on paper.">
+    <div class="split">
+        <div class="text">
+            <div class="count">10<small>/10</small></div>
+            <h2 class="h2 sm gap-sm">Forty students. Forty minutes. You only find out who's lost <em>when the test papers come back.</em></h2>
+            <p class="body gap-md">Rohan keeps losing minus signs. Priya freezes on word problems. Someone at the back hasn't understood fractions since Class 6. Finding out who needs what takes time your period doesn't have.</p>
+            <div class="score-row gap-lg">Your score <span class="box">10</span><span class="box">5</span><span class="box">0</span></div>
+        </div>
+        <div class="visual">
+            <div class="vcap" style="width:640px;text-align:left;margin-bottom:18px">Register · Class 9B · 40 students</div>
+            <div class="register">
+                <span>Aarav</span><span>Diya</span><span>Kabir</span><span>Meera</span>
+                <span class="flag">Rohan</span><span>Sana</span><span>Arjun</span><span>Ishaan</span>
+                <span>Neha</span><span>Farhan</span><span class="flag">Priya</span><span>Anika</span>
+                <span>Vivek</span><span>Zoya</span><span>Kavya</span><span class="flag">Dev</span>
+                <span>Tara</span><span>Yash</span><span>Riya</span><span>+ 21 more</span>
+            </div>
+            <span class="tag vtag">Found out too late</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Find your score"><span>Write your score: 10 · 5 · 0</span></div>
+    <aside class="notes"><p>Here's the last one, and maybe the heaviest. You have forty students and a forty-minute period. That's about one minute per child, and you still have to teach. You ask, "Everyone understood?" and the whole class nods. Then the unit test comes back, and you see it. Rohan has understood the method but loses a minus sign every time. Priya can do any equation you write down, but she freezes when it's a word problem. And there's a quiet student at the back who hasn't really understood fractions since Class 6, and nobody noticed. You want to help each of them, but finding out who's stuck, and where, means checking notebooks, calling students up one by one, and staying back after school. By the time you know, the class has moved on to the next chapter. Does this sound like your class? Write down your score: 10, 5, or 0.</p></aside>
+</section>
+
+<!-- ============ 14 · YOUR SCORE ============ -->
+<section class="slide" data-title="Your score" data-duration="~1.5 min" data-interaction="Teachers add up their scores. Sharing in chat is optional.">
+    <div class="center">
+        <div class="kicker">Your score</div>
+        <h2 class="h2 gap-sm">Add up your <em>10 numbers.</em></h2>
+        <div class="bands gap-md">
+            <div class="band"><div class="range">0 to 30</div><div class="msg-text">You've found your rhythm. The easier ways ahead are handy extras to keep in your pocket.</div></div>
+            <div class="band"><div class="range">35 to 65</div><div class="msg-text">Some of these moments are eating into your week. A few of the easier ways ahead will give you real time back, every week.</div></div>
+            <div class="band"><div class="range">70 to 100</div><div class="msg-text">You carry most of these moments, week after week. This session was built for you, so write down every easier way you see.</div></div>
+        </div>
+        <p class="body gap-md">Your score stays with you.</p>
+    </div>
+    <div class="pin" data-section="Your score"><span>Sharing in chat is optional</span></div>
+    <aside class="notes"><p>Now add up your ten numbers. Take a moment, there's no rush. If you're between 0 and 30, you've clearly found a rhythm that works in your classroom, and what's coming next will be handy extras you can pick from. If you're between 35 and 65, you're in good company: some of these moments are quietly eating into your week, and a few of the easier ways ahead will give you that time back. And if you scored 70 or above, you're carrying most of these moments, every single week. This next part was built for you, so keep that pen ready and write down every easier way you see. Whatever your number, it stays with you. We won't ask for it. If you'd like to share it anyway, drop it in the chat. It helps us understand where teachers really are.</p></aside>
+</section>
+
+<!-- ============ 15 · WHO WE ARE ============ -->
+<section class="slide" data-title="Who we are" data-duration="~1 min" data-interaction="Ask: &quot;Have you used Robocompass in your class? Type yes or no in the chat.&quot;">
+    <div class="center">
+        <div class="kicker">Who we are</div>
+        <h2 class="h2 gap-sm" style="max-width:1400px">For 15 years, we've chased one simple question: how can maths be <em>easier to teach, and to learn?</em></h2>
+        <div class="partners gap-lg">
+            <div class="partner">
+                <div class="logo-slot"><img src="assets/robocompass-logo.png" alt="Robocompass" style="max-height:80px"></div>
+                <div class="h3">Robocompass</div>
+                <p class="body">Our free maths tool, used by lakhs of students and recommended by NCERT. Ranked the <b>3rd most-used ICT tool</b> in Indian schools (Kotak Mahindra Bank impact assessment study).</p>
+            </div>
+            <div class="partner">
+                <div class="logo-slot paper"><img src="assets/ghent.png" alt="Ghent University"></div>
+                <div class="h3">Ghent University, Belgium</div>
+                <p class="body">We built maths teaching simulations together.</p>
+            </div>
+            <div class="partner">
+                <div class="logo-slot paper"><img src="assets/phet.png" alt="PhET Interactive Simulations"></div>
+                <div class="h3">PhET Interactive Simulations</div>
+                <p class="body">University of Colorado Boulder, founded by Nobel laureate Carl Wieman. We worked on PhET sims.</p>
+            </div>
+        </div>
+    </div>
+    <div class="pin" data-section="Who we are"><span>Chat: used Robocompass? yes / no</span></div>
+    <aside class="notes"><p>Before we get to the easier ways, a quick word on who we are, so you know where they come from. For fifteen years, our team has worked on one question: how can maths be easier to teach, and easier to learn? Many of you already know our first answer to that question. It's Robocompass, the free tool for drawing geometric constructions. It's recommended by NCERT, used by lakhs of students, and an impact study by Kotak Mahindra Bank ranked it the third most-used ICT tool in Indian schools. Along the way, we built maths simulations with Ghent University in Belgium, and we worked on PhET Interactive Simulations at the University of Colorado Boulder, which was founded by Nobel laureate Carl Wieman. Everything you'll see next comes from that same work, and from listening to teachers like you.</p></aside>
+</section>
+
+<!-- ============ 16 · MEET OUR EXPERT PANELIST ============ -->
+<section class="slide" data-title="Meet our expert panelist" data-duration="~1 min" data-interaction="Ashraf says a short hello (about 20 seconds).">
+    <div class="split rev">
+        <div class="visual">
+            <img class="portrait" src="assets/ashraf.png" alt="Ashraf Sharfudeen">
+            <span class="tag vtag">Expert panelist</span>
+        </div>
+        <div class="text">
+            <div class="kicker">Meet our expert panelist</div>
+            <h2 class="h1 gap-sm">Ashraf <em>Sharfudeen</em></h2>
+            <ol class="nlist checks gap-lg" style="width:780px">
+                <li><span>Founder of Robogebra and Provility</span></li>
+                <li><span>Creator of Robocompass and MathDisk</span></li>
+                <li><span>Co-author of a peer-reviewed paper on progressive disclosure in maths teaching, with Dr. Ajit Kumar and Dr. Sang-Gu Lee</span></li>
+            </ol>
+            <p class="body gap-md">Ask him anything at the end of the session.</p>
+        </div>
+    </div>
+    <div class="pin" data-section="Expert panelist"><span>Ashraf says hello</span></div>
+    <aside class="notes"><p>And now I'd like you to meet the person who'll answer your questions at the end of this session. Ashraf Sharfudeen is the founder of Robogebra and Provility, and he created Robocompass and MathDisk. He's also co-authored a peer-reviewed paper on progressive disclosure in maths teaching, which means showing students a solution one step at a time, so they aren't overwhelmed by all of it at once. You'll see that idea running through several of the easier ways today. Ashraf, welcome. [Pause for Ashraf to say a few words.] Remember, the last fifteen minutes are all yours, so keep noting down your questions as we go.</p></aside>
+</section>
+
+<!-- ============ 17 · EASIER WAY 1 ============ -->
+<section class="slide" data-title="Easier way 1/10: Let colour connect the maths" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 1</div>
+            <div class="for-line gap-xs">for “Maths online looks lifeless”</div>
+            <h2 class="h2 gap-md">Give each idea its own colour, and keep that colour <em>everywhere it appears.</em></h2>
+            <p class="body gap-md">In y = <span class="c-blue">m</span>x + <span class="c-orange">c</span>, if m is blue in the equation, the slope is blue on the graph. If c is orange, the point where the line meets the y-axis is orange too. Students follow the colour and see where each part comes from.</p>
+        </div>
+        <div class="visual">
+            <div class="before-thumb">before: y=2x+3 , m=slope , c=y-intercept</div>
+            <div class="lesson-eq">y = <span class="b">2</span>x + <span class="o">3</span></div>
+            <svg viewBox="0 0 440 460" width="440" height="460" aria-label="Graph of y = 2x + 3 with a blue slope triangle and an orange y-intercept">
+                <g stroke="rgba(232,216,92,0.12)" stroke-width="1">
+                    <path d="M40 0V460M80 0V460M120 0V460M200 0V460M240 0V460M280 0V460M320 0V460M360 0V460M400 0V460"/>
+                    <path d="M0 20H440M0 60H440M0 100H440M0 140H440M0 180H440M0 220H440M0 260H440M0 300H440M0 380H440M0 420H440"/>
+                </g>
+                <path d="M0 340H440M160 0V460" stroke="rgba(232,216,92,0.55)" stroke-width="1.5"/>
+                <line x1="20" y1="460" x2="290" y2="0" stroke="#E8D85C" stroke-width="3"/>
+                <path d="M160 220 H200 V140" stroke="#00ACFF" stroke-width="4" fill="rgba(0,172,255,0.18)"/>
+                <text x="168" y="248" fill="#00ACFF" font-family="Courier Prime, monospace" font-size="17">run 1</text>
+                <text x="210" y="186" fill="#00ACFF" font-family="Courier Prime, monospace" font-size="17">rise 2</text>
+                <circle cx="160" cy="220" r="10" fill="#FF8C2B"/>
+                <text x="60" y="214" fill="#FF8C2B" font-family="Courier Prime, monospace" font-size="18">(0, 3)</text>
+            </svg>
+            <span class="tag vtag">Same maths, now in colour</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>1 / 10</span></div>
+    <aside class="notes"><p>Remember those grey pages from the first moment? Here's the easier way: colour. When each part of an idea has its own colour, and keeps it everywhere, students stop hunting for connections because the colour shows them. Look at this Robogebra lesson. In y equals 2x plus 3, the 2 is blue and the 3 is orange. On the graph, the slope triangle is blue and the point where the line crosses the y-axis is orange. A student doesn't need you to say "the m value gives the slope" three times, because they can see it. Now watch what happens when I change the 2 to a 3. The blue triangle grows and the line gets steeper. The colour carries the link from symbol to picture. You can do this with coloured chalk tomorrow, and a tool like Robogebra keeps the colours matched for you on every line and every graph.</p></aside>
+</section>
+
+<!-- ============ 18 · EASIER WAY 2 ============ -->
+<section class="slide" data-title="Easier way 2/10: Tell AI what your class needs" data-duration="~1.5 min" data-interaction="Ask teachers to screenshot the prompt checklist.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 2</div>
+            <div class="for-line gap-xs">for “AI answers that miss your syllabus”</div>
+            <h2 class="h2 gap-md">AI only knows what you tell it. Give it your class, your textbook and your method <em>in the first prompt.</em></h2>
+            <p class="note-line gap-lg">Coming soon in The Vertex: a free prompt library for maths teachers.</p>
+        </div>
+        <div class="visual">
+            <div class="vague">Solve x² − 5x + 6 = 0 &nbsp;→&nbsp; x = (5 ± √1) / 2 …</div>
+            <div class="vcap" style="width:660px;text-align:left;margin-bottom:10px;color:var(--teal-ink)">A PROMPT THAT WORKS</div>
+            <div class="prompt">I teach Class 10, CBSE, NCERT Maths, Chapter 4: Quadratic Equations. Solve this question by factorisation only, the method in the textbook. Don't use the quadratic formula. Show every step on a new line, with one simple sentence explaining it, for a Class 10 student.</div>
+            <div class="chips">
+                <span class="chip">Class</span><span class="chip">Board</span><span class="chip">Textbook and chapter</span><span class="chip">Method allowed</span><span class="chip">How many steps</span><span class="chip">Who it's for</span>
+            </div>
+            <span class="tag vtag">First try</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>2 / 10 · Screenshot the checklist</span></div>
+    <aside class="notes"><p>Remember prompt number six from earlier? Most of that back-and-forth disappears once you give the AI proper context in your first message. AI doesn't know you teach Class 10, what your board is, or that your textbook uses factorisation in this chapter, so it guesses, and it usually guesses the method it has seen most often. So tell it. Your class, your board, the textbook and chapter, which method is allowed, how much detail each step needs, and who's going to read it. Look at the difference. On the left, a one-line question and an answer your students can't use. On the right, the same question with six details added, and the answer follows the textbook on the first try. Swap in your own board and chapter, and it works the same way. Writing good prompts takes a bit of practice, so over the coming week we'll share a library of ready-made prompts for maths teachers in The Vertex. You can copy them, change the chapter, and use them straight away.</p></aside>
+</section>
+
+<!-- ============ 19 · EASIER WAY 3 ============ -->
+<section class="slide" data-title="Easier way 3/10: Get the tool ready before the bell" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 3</div>
+            <div class="for-line gap-xs">for “Brilliant tools, 40-minute periods”</div>
+            <h2 class="h2 gap-sm">Keep the tool's setup <em>out of your period.</em></h2>
+            <ol class="nlist gap-md">
+                <li><span><b>Pick tools that follow your syllabus.</b> When a tool is organised by your chapters, the right screen is one tap away.</span></li>
+                <li><span><b>Prepare it the night before.</b> If your tool isn't organised that way, set up the exact screen you need, save it, and keep it ready to open on the smart board.</span></li>
+                <li><span><b>Dry-run it three times.</b> Walk through the lesson on the tool at least three times before you use it with a class.</span></li>
+            </ol>
+        </div>
+        <div class="visual">
+            <div class="period faded">
+                <div class="label">Before</div>
+                <div class="bar">
+                    <div class="seg lost" style="width:25%"></div>
+                    <div class="seg teach" style="width:75%"></div>
+                </div>
+                <div class="legend">
+                    <span><i class="lost"></i>10 min · open laptop, find tool, adjust sliders</span>
+                    <span><i></i>the bell rings mid-demo</span>
+                </div>
+            </div>
+            <div class="period gap-lg">
+                <div class="label">After</div>
+                <div class="bar">
+                    <div class="seg on" style="width:4%"></div>
+                    <div class="seg teach" style="width:96%"></div>
+                </div>
+                <div class="legend">
+                    <span><i class="on"></i>30 sec · tap saved lesson</span>
+                    <span style="color:var(--yellow)"><i></i>the rest · teaching and student questions</span>
+                </div>
+            </div>
+            <div class="vcap gap-lg" style="color:var(--yellow)">✓ Follows my chapter &nbsp; ✓ Saved and ready &nbsp; ✓ Dry-run ×3</div>
+            <span class="tag vtag">Ready in 30 seconds</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>3 / 10</span></div>
+    <aside class="notes"><p>Those brilliant tools can fit into a forty-minute period. The trick is to keep their setup out of the period. First, where you can, use tools that follow your syllabus chapter by chapter. Then the screen for today's lesson is already there, and you don't have to build it in front of forty students. Second, if the tool you love doesn't work that way, do the setup the night before. Build the exact screen you need, save it, and keep it one tap away on the smart board, so in class you just open it and teach. And third, a lesson from experience: never try a tool for the first time in front of a live class. Run through the lesson on it at least three times on your own. The first run shows you where things go wrong, and by the third you know exactly which button to press while you're still talking to the class. That's how the tool gets into your period, and how your syllabus stays on track.</p></aside>
+</section>
+
+<!-- ============ 20 · EASIER WAY 4 ============ -->
+<section class="slide" data-title="Easier way 4/10: Choose tools you don't have to learn" data-duration="~1.5 min" data-interaction="Ask: &quot;Think of the last tool you tried. High, medium or low? Type it in the chat.&quot;">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 4</div>
+            <div class="for-line gap-xs">for “Learning the tool before the lesson”</div>
+            <h2 class="h2 gap-md">Before you try any tool, ask one question: <em>how much will I have to learn</em> before I can teach with it?</h2>
+            <p class="body gap-md">Robogebra sits at the low end. You click a button, and that's all you need to know to use it in class.</p>
+        </div>
+        <div class="visual">
+            <div class="vcap" style="width:640px;text-align:left;margin-bottom:14px;color:var(--teal-ink)">THE LEARNING COST SCALE</div>
+            <div class="scale">
+                <div class="row dim"><div class="lvl">High</div><div class="desc">Tutorials, toolbars and settings before your first lesson</div></div>
+                <div class="row dim"><div class="lvl">Medium</div><div class="desc">A few hours of practice, then it gets easier</div></div>
+                <div class="row low"><div class="lvl">Low</div><div class="desc">Open it and teach</div></div>
+            </div>
+            <span class="tag vtag">One button</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>4 / 10 · Chat: high, medium or low?</span></div>
+    <aside class="notes"><p>Remember those two hours on Sunday, spent learning a tool while your lesson plan stayed blank? Here's a simple habit that stops that from happening. Before you try any new tool, ask how much you'll have to learn before you can teach with it. We call it the learning cost. Some tools have a high learning cost: tutorials, toolbars and settings before you can do anything useful. Some are medium: a few hours of practice and then it gets easier. And some are low: you open it and you teach. Your time belongs to your lesson and your students, so pick tools from the low end. That's how we built Robogebra. To use it in your classroom, all you need to know is how to click a button. You don't need any special knowledge of the tool. Take this scale with you and use it on every new tool, app or website someone recommends to you.</p></aside>
+</section>
+
+<!-- ============ 21 · EASIER WAY 5 ============ -->
+<section class="slide" data-title="Easier way 5/10: Find your balance point" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 5</div>
+            <div class="for-line gap-xs">for “Stuck between chalk and AI”</div>
+            <h2 class="h2 sm gap-sm">AI will keep changing. A teacher explaining an idea to a class <em>won't.</em></h2>
+            <p class="body gap-sm">Stand in the middle: keep your syllabus, your textbook and your way of teaching, and add tools that make them more visual. Before you adopt any tool, check three things:</p>
+            <ol class="nlist checks gap-sm" style="width:700px">
+                <li><span>Nothing new to learn</span></li>
+                <li><span>No change to how your school works</span></li>
+                <li><span>Works with your board and textbook</span></li>
+            </ol>
+            <p class="body gap-sm">Robogebra works on the smart board you already have and fits the way you already teach.</p>
+        </div>
+        <div class="visual">
+            <div class="spectrum">
+                <div class="track">
+                    <div class="zone"></div>
+                    <div class="marker"><span class="tag">Right here</span><span class="stem"></span><span class="dot"></span></div>
+                </div>
+                <div class="zone-label">Your teaching, made visual</div>
+                <div class="ends">
+                    <div class="end">
+                        <svg width="70" height="56" viewBox="0 0 70 56" style="display:block;margin-bottom:10px"><path d="M6 50 L35 6 L64 50 Z" fill="none" stroke="#E8D85C" stroke-width="2" stroke-linejoin="round" stroke-dasharray="5 3"/></svg>
+                        <div class="h3">Chalk and board</div>
+                    </div>
+                    <div class="end right">
+                        <div class="heads">“AI will replace teachers”<br>“Schools must go fully digital”</div>
+                        <div class="h3 gap-xs">AI does everything</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>5 / 10</span></div>
+    <aside class="notes"><p>Let's go back to that spectrum. Here's what we believe. The headlines about AI will keep coming, some exciting and some scary, and it's worth taking them with a pinch of salt. What won't change, for as long as there are students, is a teacher standing in front of a class and helping them understand something. That's the part no tool replaces. At the same time, chalk and talk on its own is getting harder. Our students grew up with screens, and they expect to see maths move and change in front of them. So the answer sits in the middle. Keep your curriculum, your textbook and the way you teach, and add tools that make your teaching more visual. When you look at any tool, check three things: do I have to learn something new, does my school have to change anything, and does it work with my board? That's how we built Robogebra. It runs on the smart board your school already has, follows the lesson the way you'd teach it, and doesn't ask you to change your approach.</p></aside>
+</section>
+
+<!-- ============ 22 · EASIER WAY 6 ============ -->
+<section class="slide" data-title="Easier way 6/10: Prepare once, teach it in every section" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 6</div>
+            <div class="for-line gap-xs">for “A smart board, used like a blackboard”</div>
+            <h2 class="h2 gap-sm">Prepare the lesson once, and <em>open it in every section.</em></h2>
+            <ol class="nlist gap-md">
+                <li><span><b>Do it yourself with AI:</b> turn your lesson into a simple web page and open it on the smart board in 9A, 9B, 9C and 9D. Coming soon in The Vertex: a step-by-step playbook for doing this with AI.</span></li>
+                <li><span><b>Or let Robogebra do it:</b> pick an example or exercise, start the lesson, and the solution appears step by step, as if you were writing it on the board.</span></li>
+            </ol>
+        </div>
+        <div class="visual">
+            <div class="frame" style="padding:14px 30px;font-family:var(--font-serif);font-style:italic;font-size:36px;background:var(--navy-mid)">Prepared once</div>
+            <svg width="600" height="60" viewBox="0 0 600 60" style="display:block"><path d="M300 0 V20 M150 20 H450 M150 20 V60 M450 20 V60" stroke="rgba(232,216,92,0.5)" stroke-width="1.5" fill="none"/></svg>
+            <div class="boards">
+                <div class="board"><div class="vcap"><span>9A</span><span>y = 2x + 3</span></div><svg viewBox="0 0 240 150"><path d="M20 130 H225 M40 140 V10" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><line x1="50" y1="128" x2="205" y2="12" stroke="#E8D85C" stroke-width="2.5"/></svg></div>
+                <div class="board"><div class="vcap"><span>9B</span><span>y = 2x + 3</span></div><svg viewBox="0 0 240 150"><path d="M20 130 H225 M40 140 V10" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><line x1="50" y1="128" x2="205" y2="12" stroke="#E8D85C" stroke-width="2.5"/></svg></div>
+                <div class="board"><div class="vcap"><span>9C</span><span>y = 2x + 3</span></div><svg viewBox="0 0 240 150"><path d="M20 130 H225 M40 140 V10" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><line x1="50" y1="128" x2="205" y2="12" stroke="#E8D85C" stroke-width="2.5"/></svg></div>
+                <div class="board"><div class="vcap"><span>9D</span><span>y = 2x + 3</span></div><svg viewBox="0 0 240 150"><path d="M20 130 H225 M40 140 V10" stroke="rgba(232,216,92,.35)" stroke-width="1.5" fill="none"/><line x1="50" y1="128" x2="205" y2="12" stroke="#E8D85C" stroke-width="2.5"/></svg></div>
+            </div>
+            <span class="tag vtag">Drawn once. Used four times.</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>6 / 10</span></div>
+    <aside class="notes"><p>Remember writing the same graph four times in one day? Here's the easier way: prepare it once and reuse it everywhere. There are two ways to do this. The first is something you can do yourself with AI. You prepare the lesson in advance and turn it into a simple web page, and in every section you just open that page on the smart board. It sounds technical, so we'll share a step-by-step playbook for it in The Vertex that walks you through it. The second way is built into Robogebra. You pick an example or an exercise from your chapter and start the lesson, and the solution appears on the board step by step, just as if you were writing it yourself. Students see one step at a time, you're free to talk and walk around the class, and in 9B you press start again. Your hand stops aching, and the smart board earns its place in your classroom.</p></aside>
+</section>
+
+<!-- ============ 23 · EASIER WAY 7 ============ -->
+<section class="slide" data-title="Easier way 7/10: Change the numbers, get a new question" data-duration="~1.5 min" data-interaction="Ask: &quot;What would you change in this equation to make it harder? Type it in the chat.&quot; Then change it live, if the demo allows.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 7</div>
+            <div class="for-line gap-xs">for “Hunting for one more practice question”</div>
+            <h2 class="h2 sm gap-sm">One good question can give you ten more. <em>Change the numbers</em> and see the new solution straight away.</h2>
+            <ol class="nlist gap-md">
+                <li><span>In Robogebra's <b>Edit and Explore</b>, you change an expression or a coefficient, and the built-in maths engine solves the new version live, step by step.</span></li>
+                <li><span>Other tools can do this too. Look for one that lets you edit the expression and solves it for you.</span></li>
+                <li><span>Use it live in class, or to prepare practice sets and homework in minutes.</span></li>
+            </ol>
+        </div>
+        <div class="visual">
+            <div class="eqs">
+                <div class="old">x² − 5x + 6 = 0</div>
+                <div>x² <span class="new">− 7</span>x + <span class="new">12</span> = 0</div>
+                <div style="height:1px;background:var(--border);margin:22px auto;width:420px"></div>
+                <div class="step">(x − 3)(x − 4) = 0</div>
+                <div class="step" style="color:var(--yellow)">x = 3 &nbsp;or&nbsp; x = 4</div>
+            </div>
+            <span class="tag vtag">New question, solved live</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>7 / 10 · Chat: make it harder?</span></div>
+    <aside class="notes"><p>Remember that hour with three reference books, and the "perfect" question whose answer came out as 17 by 13 root 2? Here's the easier way. Start from one good question, and change it. Look at this. In Robogebra there's a feature called Edit and Explore. I change the minus 5 to minus 7 and the 6 to 12, and the built-in maths engine solves the new equation straight away, step by step. I can see immediately that the answer comes out clean, so no more surprises halfway through the working. You can do this live in class. When a student says "I've got it", change a coefficient and ask them to try again. You can also use it at home to build a practice set or homework in a few minutes, because every variation comes with its full solution. Other tools can do this too, and whatever you use, look for one that lets you edit the expression and solves it for you.</p></aside>
+</section>
+
+<!-- ============ 24 · EASIER WAY 8 ============ -->
+<section class="slide" data-title="Easier way 8/10: Build the 3D picture one step at a time" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 8</div>
+            <div class="for-line gap-xs">for “The student who can't picture the cone”</div>
+            <h2 class="h2 gap-sm">Let students watch the shape being built, <em>one piece at a time.</em></h2>
+            <ol class="nlist gap-md">
+                <li><span><b>With AI:</b> you can now create 3D visuals from a simple prompt. The Vertex prompt library will include prompts for these too.</span></li>
+                <li><span><b>With Robogebra:</b> for any textbook question that needs a 3D or 2D picture, the model builds up step by step, alongside the solution.</span></li>
+            </ol>
+            <p class="body gap-md">One piece at a time, the student builds a clean picture in their head.</p>
+        </div>
+        <div class="visual">
+            <div class="cone-grid">
+                <!-- Step 1: base + radius -->
+                <div class="cone-step"><div class="vcap">1 · base, radius</div>
+                    <svg viewBox="0 0 280 230"><path d="M50 190 A90 24 0 0 1 230 190" stroke="rgba(232,216,92,.45)" stroke-width="2" fill="none" stroke-dasharray="6 5"/><path d="M50 190 A90 24 0 0 0 230 190" stroke="#E8D85C" stroke-width="2.5" fill="none"/><line x1="140" y1="190" x2="230" y2="190" stroke="#F5E168" stroke-width="3"/><circle cx="140" cy="190" r="4" fill="#E8D85C"/><text x="178" y="182" fill="#F5E168" font-family="Cormorant Garamond, serif" font-style="italic" font-size="28">r</text></svg></div>
+                <!-- Step 2: height -->
+                <div class="cone-step"><div class="vcap">2 · height</div>
+                    <svg viewBox="0 0 280 230"><path d="M50 190 A90 24 0 0 1 230 190" stroke="rgba(232,216,92,.45)" stroke-width="2" fill="none" stroke-dasharray="6 5"/><path d="M50 190 A90 24 0 0 0 230 190" stroke="#E8D85C" stroke-width="2.5" fill="none"/><line x1="140" y1="190" x2="230" y2="190" stroke="rgba(232,216,92,.6)" stroke-width="2"/><line x1="140" y1="190" x2="140" y2="24" stroke="#F5E168" stroke-width="3" stroke-dasharray="7 6"/><circle cx="140" cy="24" r="5" fill="#F5E168"/><text x="114" y="112" fill="#F5E168" font-family="Cormorant Garamond, serif" font-style="italic" font-size="28">h</text></svg></div>
+                <!-- Step 3: slant height -->
+                <div class="cone-step"><div class="vcap">3 · slant height</div>
+                    <svg viewBox="0 0 280 230"><path d="M50 190 A90 24 0 0 1 230 190" stroke="rgba(232,216,92,.45)" stroke-width="2" fill="none" stroke-dasharray="6 5"/><path d="M50 190 A90 24 0 0 0 230 190" stroke="#E8D85C" stroke-width="2.5" fill="none"/><line x1="140" y1="190" x2="230" y2="190" stroke="rgba(232,216,92,.6)" stroke-width="2"/><line x1="140" y1="190" x2="140" y2="24" stroke="rgba(232,216,92,.6)" stroke-width="2" stroke-dasharray="7 6"/><line x1="140" y1="24" x2="230" y2="190" stroke="#F5E168" stroke-width="3"/><line x1="140" y1="24" x2="50" y2="190" stroke="#E8D85C" stroke-width="2.5"/><text x="194" y="100" fill="#F5E168" font-family="Cormorant Garamond, serif" font-style="italic" font-size="28">l</text></svg></div>
+                <!-- Step 4: the hidden right triangle -->
+                <div class="cone-step"><div class="vcap">4 · l² = r² + h²</div>
+                    <svg viewBox="0 0 280 230"><path d="M50 190 A90 24 0 0 1 230 190" stroke="rgba(232,216,92,.45)" stroke-width="2" fill="none" stroke-dasharray="6 5"/><path d="M50 190 A90 24 0 0 0 230 190" stroke="#E8D85C" stroke-width="2.5" fill="none"/><line x1="140" y1="24" x2="50" y2="190" stroke="#E8D85C" stroke-width="2.5"/><path d="M140 24 L140 190 L230 190 Z" fill="rgba(232,216,92,0.28)" stroke="#F5E168" stroke-width="3"/><path d="M140 176 H154 V190" stroke="#F5E168" stroke-width="1.5" fill="none"/></svg></div>
+            </div>
+            <span class="tag vtag">Now I see it</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>8 / 10</span></div>
+    <aside class="notes"><p>This is where technology helps most. Remember the one student who couldn't picture the cone? A flat drawing asks them to imagine the whole shape at once. Instead, let them watch it being built. With today's AI tools, creating a 3D visual is much simpler than it used to be, and our prompt library in The Vertex will include prompts for exactly this. Robogebra does it natively. For any question in your textbook that needs a 3D or a 2D picture, the model builds up step by step, together with the solution. Watch this cone. First the base and the radius. Then the height rises from the centre. Then the slant height. Then the right triangle hiding inside the cone, and suddenly l squared equals r squared plus h squared makes sense. That's the idea behind Ashraf's work on progressive disclosure: show one step, let it settle, and then show the next. By the end, the student has built a clean picture of the cone in their head, and they're the one who built it.</p></aside>
+</section>
+
+<!-- ============ 25 · EASIER WAY 9 ============ -->
+<section class="slide" data-title="Easier way 9/10: Make your question bank searchable" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 9</div>
+            <div class="for-line gap-xs">for “Setting the question paper”</div>
+            <h2 class="h2 gap-sm">Keep every good question in <em>one place you can search.</em></h2>
+            <ol class="nlist gap-md">
+                <li><span><b>Build your own with AI:</b> photograph or scan your reference books and old question papers, and use AI to turn them into a searchable collection, tagged by chapter, marks and question type.</span></li>
+                <li><span><b>Or start with Robogebra:</b> previous years' questions are already there, and you can search them.</span></li>
+            </ol>
+            <p class="body gap-md">Search “Class 10 · Triangles · 3 marks” and find what you need in minutes.</p>
+        </div>
+        <div class="visual">
+            <div class="search">
+                <div class="box"><span style="color:var(--teal-ink)">⌕</span> Class 10 · Triangles · 3 marks</div>
+                <div class="res"><span class="yr">2024</span><span class="qt">Prove the basic proportionality theorem for a line drawn parallel to one side.</span><span class="mk">3 marks</span></div>
+                <div class="res open"><span class="yr">2023</span><span class="qt">Find the ratio of the areas of two similar triangles… <span class="mono" style="color:var(--teal-ink);font-size:17px">+ full solution</span></span><span class="mk">3 marks</span></div>
+                <div class="res"><span class="yr">2020</span><span class="qt">Show that the two triangles are similar and find x.</span><span class="mk">3 marks</span></div>
+            </div>
+            <span class="tag vtag">Found in seconds</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>9 / 10</span></div>
+    <aside class="notes"><p>Remember exam week: the blueprint, the guidebooks, the question paper from three years ago, and the book a colleague never returned? The easier way is to get every good question into one place you can search. You can build this yourself. Take photos or scans of your reference books and old papers, and ask an AI tool to turn them into a list you can search, with each question tagged by chapter, marks and type. Do it once, keep adding to it, and next exam season you're searching instead of hunting. Or you can start with Robogebra, where previous years' questions are already collected and searchable. Let me show you. I type the chapter, pick the class and the marks, and here are the past questions, each with its year. I open one and the full solution is right there. You can check the working before it goes into your paper. What used to take an evening now takes a few minutes, and you still choose every question yourself.</p></aside>
+</section>
+
+<!-- ============ 26 · EASIER WAY 10 ============ -->
+<section class="slide" data-title="Easier way 10/10: See each student's journey" data-duration="~1.5 min" data-interaction="None.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">Easier way 10</div>
+            <div class="for-line gap-xs">for “Who needs help, and with what?”</div>
+            <h2 class="h2 sm gap-sm">Let students answer on the same platform <em>where you set the questions.</em></h2>
+            <p class="body gap-sm" style="font-size:24px">Dictating questions in class, or sending them on WhatsApp, leaves the answers scattered in forty notebooks and chats. When students answer on one platform, you can see who is stuck, where, and for how long.</p>
+            <ol class="nlist gap-sm">
+                <li><span><b>In Robogebra:</b> you unlock a question, and it reaches your students. Then you see each student's journey through the textbook: where they got stuck, and where they're taking longer.</span></li>
+                <li><span>Use a platform that works this way, or build one.</span></li>
+            </ol>
+        </div>
+        <div class="visual">
+            <div class="vcap" style="width:640px;text-align:left;margin-bottom:14px">Unlock → question reaches students → their journey</div>
+            <div class="journey">
+                <div class="row"><span class="name">Rohan</span><span class="where">method right · <b>lost the sign</b>, step 3</span></div>
+                <div class="row"><span class="name">Priya</span><span class="where"><b>word problems</b> · 6 min before starting</span></div>
+                <div class="row"><span class="name">Dev</span><span class="where">stuck on the <b>fractions</b> step, again</span></div>
+                <div class="row" style="opacity:.5"><span class="name">37 more</span><span class="where">on track</span></div>
+            </div>
+            <span class="tag vtag">Found out in time</span>
+        </div>
+    </div>
+    <div class="pin" data-section="Easier way"><span>10 / 10</span></div>
+    <aside class="notes"><p>Let's go back to Rohan, Priya and that quiet student at the back. The reason you find out so late is that their work is spread across forty notebooks, or a WhatsApp group, or only in their heads until the test. So here's the easier way: let students answer on the same platform where you set the questions. Robogebra does this natively. You unlock a question, and it goes to your students. As they work through it, you can see each one's journey through the textbook. You see that Rohan got the method right and lost the sign in step three, that Priya spent six minutes on the word problem before she started, and that the student at the back is stuck on the fraction step, again. Now you know who needs help, and exactly where, while you're still teaching the chapter. Whether you use Robogebra, another platform, or build something of your own, look for one thing: can you see where each student is stuck?</p></aside>
+</section>
+
+<!-- ============ 27 · THE VERTEX ============ -->
+<section class="slide" data-title="The Vertex" data-duration="~5 min" data-interaction="Ask teachers to post a short intro in The Vertex group.">
+    <div class="split">
+        <div class="text">
+            <div class="kicker">The Vertex</div>
+            <h2 class="h2 sm gap-sm">The point where many lines meet, <em>where maths teachers from every board and state meet.</em></h2>
+            <p class="lead gap-md" style="font-size:26px">What's waiting for you inside:</p>
+            <ol class="nlist gap-sm">
+                <li><span>The maths teacher prompt library, for lessons, solutions and 3D visuals</span></li>
+                <li><span>The step-by-step playbook for turning your lessons into web pages with AI</span></li>
+                <li><span>Teachers from across India sharing what works in their classrooms, and what doesn't</span></li>
+            </ol>
+            <p class="note-line gap-md">Everything we've promised today arrives in The Vertex this week.</p>
+        </div>
+        <div class="visual" style="padding:60px">
+            <svg class="vertex-svg" viewBox="0 0 680 640" aria-label="Many lines from different boards and states meeting at one point">
+                <g stroke="rgba(232,216,92,0.55)" stroke-width="1.5">
+                    <line x1="70" y1="70" x2="340" y2="360"/><line x1="340" y1="30" x2="340" y2="360"/><line x1="620" y1="80" x2="340" y2="360"/>
+                    <line x1="30" y1="330" x2="340" y2="360"/><line x1="650" y1="310" x2="340" y2="360"/>
+                    <line x1="90" y1="590" x2="340" y2="360"/><line x1="340" y1="620" x2="340" y2="360"/><line x1="600" y1="590" x2="340" y2="360"/>
+                </g>
+                <g font-family="Courier Prime, monospace" font-size="19" fill="rgba(232,216,92,0.8)">
+                    <text x="20" y="56">CBSE</text><text x="300" y="20">ICSE</text><text x="540" y="66">State boards</text>
+                    <text x="0" y="316">Kerala</text><text x="560" y="296">Tamil Nadu</text>
+                    <text x="20" y="620">Maharashtra</text><text x="290" y="640">Karnataka</text><text x="520" y="620">Telangana</text>
+                </g>
+                <circle cx="340" cy="360" r="30" fill="none" stroke="#F5E168" stroke-width="1.5"/>
+                <circle cx="340" cy="360" r="12" fill="#F5E168"/>
+                <rect x="372" y="380" width="176" height="42" fill="#E8D85C"/>
+                <text x="386" y="408" font-family="Courier Prime, monospace" font-weight="700" font-size="21" fill="#1F2858">You are here</text>
+            </svg>
+        </div>
+    </div>
+    <div class="pin" data-section="The Vertex"><span>Post your intro in the group</span></div>
+    <aside class="notes"><p>In geometry, a vertex is the point where lines meet. That's why we called our community The Vertex. It's the place where maths teachers from every board and every state meet. Everything we've promised today lives there. Over the coming week we'll share the prompt library, with ready prompts for lessons, step-by-step solutions and 3D visuals, and the playbook for turning your lessons into simple web pages with AI. More important than any of that, you'll meet other maths teachers who face the same ten moments you scored today. Share what works in your classroom, ask when you're stuck, and tell us honestly what you think of the easier ways you saw. We're building this with you, and your feedback shapes what we make next. Scan the code now and join. When you're in, introduce yourself with your name, your school, your district and the classes you teach.</p></aside>
+</section>
+
+<!-- ============ 28 · ASK ASHRAF, LIVE ============ -->
+<section class="slide" data-title="Ask Ashraf, live" data-duration="~15 min" data-interaction="Live Q&amp;A through chat. The host picks the questions and reads them out. At 13 minutes, announce: &quot;Two more questions.&quot;">
+    <div class="split rev">
+        <div class="visual">
+            <img class="portrait sm" src="assets/ashraf.png" alt="Ashraf Sharfudeen">
+            <span class="tag vtag">Expert panelist</span>
+        </div>
+        <div class="text">
+            <div class="quote-mark" style="font-size:150px;line-height:0.6;color:var(--teal);font-family:var(--font-serif);font-style:italic">“</div>
+            <div class="kicker gap-sm">Ask Ashraf, live</div>
+            <h2 class="h1 gap-sm">Your classroom, <em>your question.</em></h2>
+            <p class="lead gap-md">Type your question in the chat, and start it with <span class="mono" style="color:var(--emphasis);font-weight:700">“Q:”</span></p>
+            <p class="body gap-md" style="color:var(--teal-ink);font-family:var(--font-mono);font-size:21px">Not sure what to ask? Try:</p>
+            <ol class="nlist gap-xs" style="width:820px">
+                <li><span>Which of today's moments do you want help with first?</span></li>
+                <li><span>How would one of these easier ways work for your class, board or chapter?</span></li>
+                <li><span>Something in your classroom that we didn't cover today</span></li>
+            </ol>
+        </div>
+    </div>
+    <div class="pin" data-section="Ask Ashraf"><span>Start your question with “Q:”</span></div>
+    <aside class="notes"><p>This is your time. For the next fifteen minutes, Ashraf will answer your questions about your own classroom. Type your question in the chat and start it with "Q:" so we can spot it easily. I'll read the questions out one by one. If your score today was high, start with the moment that drains you most. If you're wondering how one of these easier ways would work for your board or your chapter, ask that. And if something in your classroom didn't come up today, ask that too. Ashraf, over to you. [Host reads out questions and keeps time. At 13 minutes, announce: "Two more questions."]</p></aside>
+</section>
+
+<!-- ============ 29 · THANK YOU ============ -->
+<section class="slide" data-title="Thank you" data-duration="~1 min" data-interaction="Teachers type one thing they'll try in their next period." data-nomark>
+    <div class="center">
+        <img class="logo-full lg" src="assets/robogebra-logo-vellum.svg" alt="Robogebra">
+        <h2 class="h1 gap-lg">Thank you for your <em>Saturday evening.</em></h2>
+        <p class="lead gap-md">You came live, so your 2 weeks of free Robogebra access is yours.</p>
+        <p class="body gap-sm">We'd love to hear from you. Share one thing you'll try in your very next period.</p>
+        <p class="note-line gap-lg" style="color:var(--yellow-2)">✓ Nothing new to learn &nbsp;·&nbsp; ✓ No change to how your school works &nbsp;·&nbsp; ✓ Works with every board and textbook</p>
+    </div>
+    <div class="pin" data-section="Thank you"><span>Chat: one thing you'll try next period</span></div>
+    <aside class="notes"><p>That brings us to the end. Thank you for spending your Saturday evening with us. We know how precious a weekend is when you teach six periods a day. Because you came live, you get 2 weeks of free access to Robogebra, so try it with the very next lesson you teach. If you haven't joined The Vertex yet, the code is on the screen, and the prompt library and playbook will arrive there over the coming week. Before you go, tell us in the chat one thing you'll try in your very next period. And thank you, Ashraf. See you all in The Vertex.</p></aside>
+</section>
+
+</main>
+</div>
+
+<!-- Presenter notes (press N) — sits outside the stage -->
+<div class="notes-panel" id="notesPanel" aria-live="polite"></div>
+
+<!-- Inline editing affordance (hover top-left or press E) -->
+<div class="edit-hotzone"></div>
+<button class="edit-toggle" id="editToggle" title="Edit mode (E)">EDIT</button>
+
+<script>
+/* ===========================================
+   BRAND MARK
+   Robogebra's four-colour mark, injected top-right on
+   every slide without data-nomark.
+   =========================================== */
+const BRAND_MARK = `<svg viewBox="-2 -1 23 31" aria-label="Robogebra"><path fill="#fcc000" d="M50.306 0c5.307 0 9.61 3.757 9.61 8.393 0 3.754-2.823 6.933-6.77 8.02-.177-.177-4.871-4.636-5.034-4.8L48.09 0" transform="translate(-40.648)"/><path fill="#ff025f" d="M0 20.706h6.888V0H0Z" transform="translate(0 7.36)"/><path fill="#00acff" d="M5217.309 1089.238h6.888v-2.792l.017-3.946Z" transform="translate(-5217.309 -1082.5)"/><g fill="#6d02da" transform="translate(3.299 12.388)"><path d="M.008 0h5.956l.043 9.425L0 15.226Z" transform="rotate(134 5.318 8.499)"/><path d="M.529 0 0 4.472l4.469-.532Z" transform="rotate(-91 13.42 2.157)"/></g></svg>`;
+
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   Stage scaling, keyboard / wheel / swipe nav, pin counters,
+   presenter notes, URL hash.
+   =========================================== */
+class SlidePresentation {
+    constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.stage = document.getElementById('deckStage');
+        this.notesPanel = document.getElementById('notesPanel');
+        this.currentSlide = 0;
+        this.decorate();
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupWheelNav();
+        this.setupTouchNav();
+        const fromHash = parseInt(location.hash.replace('#', ''), 10);
+        this.showSlide(Number.isFinite(fromHash) ? fromHash - 1 : 0);
+    }
+
+    // Fill each pin with "NN / TOTAL · Section" and add the brand mark
+    decorate() {
+        const total = String(this.slides.length).padStart(2, '0');
+        this.slides.forEach((slide, i) => {
+            const pin = slide.querySelector('.pin');
+            if (pin) {
+                const line = document.createElement('span');
+                line.className = 'pin-count';
+                line.textContent = `${String(i + 1).padStart(2, '0')} / ${total} · ${pin.dataset.section || ''}`;
+                pin.prepend(line);
+            }
+            if (!slide.hasAttribute('data-nomark')) {
+                const mark = document.createElement('div');
+                mark.className = 'brand-mark';
+                mark.innerHTML = BRAND_MARK;
+                slide.appendChild(mark);
+            }
+        });
+    }
+
+    setupStageScale() {
+        const scale = () => {
+            const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            const x = (window.innerWidth - 1920 * factor) / 2;
+            const y = (window.innerHeight - 1080 * factor) / 2;
+            this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+    }
+
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            if (e.target.isContentEditable) return;
+            switch (e.key) {
+                case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ':
+                    e.preventDefault(); this.showSlide(this.currentSlide + 1); break;
+                case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+                    e.preventDefault(); this.showSlide(this.currentSlide - 1); break;
+                case 'Home': this.showSlide(0); break;
+                case 'End': this.showSlide(this.slides.length - 1); break;
+                case 'n': case 'N': this.toggleNotes(); break;
+            }
+        });
+    }
+
+    setupWheelNav() {
+        let locked = false;
+        window.addEventListener('wheel', (e) => {
+            if (locked || document.body.classList.contains('editing')) return;
+            if (this.notesPanel.contains(e.target)) return;
+            if (Math.abs(e.deltaY) < 30) return;
+            locked = true;
+            this.showSlide(this.currentSlide + (e.deltaY > 0 ? 1 : -1));
+            setTimeout(() => { locked = false; }, 700);
+        }, { passive: true });
+    }
+
+    setupTouchNav() {
+        let startX = 0, startY = 0;
+        window.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+        }, { passive: true });
+        window.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - startX;
+            const dy = e.changedTouches[0].clientY - startY;
+            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+                this.showSlide(this.currentSlide + (dx < 0 ? 1 : -1));
+            }
+        }, { passive: true });
+    }
+
+    showSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === this.currentSlide);
+            slide.classList.toggle('visible', i === this.currentSlide);
+        });
+        history.replaceState(null, '', `#${this.currentSlide + 1}`);
+        this.renderNotes();
+    }
+
+    toggleNotes() {
+        this.notesPanel.classList.toggle('open');
+        this.renderNotes();
+    }
+
+    renderNotes() {
+        if (!this.notesPanel.classList.contains('open')) return;
+        const slide = this.slides[this.currentSlide];
+        const notes = slide.querySelector('.notes');
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.textContent = `${this.currentSlide + 1} / ${this.slides.length} · ${slide.dataset.title || ''} · ${slide.dataset.duration || ''} · Interaction: ${slide.dataset.interaction || 'None.'}`;
+        this.notesPanel.replaceChildren(meta);
+        if (notes) this.notesPanel.insertAdjacentHTML('beforeend', notes.innerHTML);
+    }
+}
+
+/* ===========================================
+   INLINE EDITOR
+   E or the top-left hotzone toggles edit mode. Edits auto-save
+   to localStorage; Ctrl/Cmd+S downloads the edited HTML.
+   =========================================== */
+class InlineEditor {
+    constructor() {
+        this.isActive = false;
+        this.key = 'robogebra-webinar-deck-edits';
+        this.selector = '.slide .h1, .slide .h2, .slide .h3, .slide p, .slide li, .slide .tag, .slide .kicker, .slide .for-line';
+        this.targets = Array.from(document.querySelectorAll(this.selector));
+        this.toggle = document.getElementById('editToggle');
+        this.restore();
+        this.targets.forEach((el) => el.addEventListener('input', () => this.save()));
+    }
+
+    toggleEditMode() {
+        this.isActive = !this.isActive;
+        this.targets.forEach((el) => {
+            if (this.isActive) el.setAttribute('contenteditable', 'true');
+            else el.removeAttribute('contenteditable');
+        });
+        document.body.classList.toggle('editing', this.isActive);
+        this.toggle.classList.toggle('active', this.isActive);
+        this.toggle.textContent = this.isActive ? 'DONE' : 'EDIT';
+    }
+
+    save() {
+        try {
+            const data = {};
+            this.targets.forEach((el, i) => { data[i] = el.innerHTML; });
+            localStorage.setItem(this.key, JSON.stringify(data));
+        } catch (e) { /* storage unavailable */ }
+    }
+
+    restore() {
+        try {
+            const data = JSON.parse(localStorage.getItem(this.key) || 'null');
+            if (!data) return;
+            this.targets.forEach((el, i) => { if (data[i] !== undefined) el.innerHTML = data[i]; });
+        } catch (e) { /* ignore */ }
+    }
+
+    exportFile() {
+        if (this.isActive) this.toggleEditMode();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('.pin-count, .brand-mark').forEach((n) => n.remove());
+        clone.querySelectorAll('.slide').forEach((s) => s.classList.remove('active', 'visible'));
+        clone.querySelector('.deck-stage').removeAttribute('style');
+        const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+        a.download = 'index.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+    }
+}
+
+const deck = new SlidePresentation();
+const editor = new InlineEditor();
+
+const editToggle = document.getElementById('editToggle');
+const hotzone = document.querySelector('.edit-hotzone');
+let hideTimeout = null;
+editToggle.addEventListener('click', () => editor.toggleEditMode());
+hotzone.addEventListener('click', () => editor.toggleEditMode());
+hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); editToggle.classList.add('show'); });
+hotzone.addEventListener('mouseleave', () => {
+    hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400);
+});
+editToggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+editToggle.addEventListener('mouseleave', () => {
+    hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400);
+});
+document.addEventListener('keydown', (e) => {
+    if ((e.key === 'e' || e.key === 'E') && !e.target.isContentEditable) editor.toggleEditMode();
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); editor.exportFile(); }
+});
+</script>
+</body>
+</html>

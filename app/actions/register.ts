@@ -47,7 +47,8 @@ export async function register(
   );
   if (!knownDistrict) errors.district = "Please pick your district from the list.";
 
-  if (phone && !PHONE_RE.test(phone))
+  if (!phone) errors.phone = "Please enter your mobile number.";
+  else if (!PHONE_RE.test(phone))
     errors.phone = "Please enter a valid 10-digit mobile number.";
 
   if (Object.keys(errors).length > 0) return { ok: false, errors };

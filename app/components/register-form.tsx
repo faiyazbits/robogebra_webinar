@@ -128,13 +128,14 @@ export function RegisterForm() {
               />
             </Field>
 
-            <Field id="phone" label="Phone number (optional)" error={err("phone")}>
+            <Field id="phone" label="Phone number" error={err("phone")}>
               <input
                 id="phone"
                 name="phone"
                 type="tel"
                 inputMode="numeric"
                 autoComplete="tel-national"
+                required
                 maxLength={16}
                 className={inputClass}
                 {...errProps("phone")}
